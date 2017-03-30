@@ -6,7 +6,7 @@ DataBase - Folder that holds all of the testing relative to the database
 
 ## Angular Testing
 
-Our section about angular is located [here](/Angular/angular.md).
+Our section about angular is located [here](Angular/angular.md).
 
 ## Note
 In case of root login authentication error, create and use admin account instead
