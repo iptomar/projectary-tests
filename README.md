@@ -1,15 +1,8 @@
 # projectary-tests
+Repository for
 
-## Structure
+## Documentation
 
-DataBase - Folder that holds all of the testing relative to the database
+The documentation is located [here on the Documentation folder](Documentation/index.md).
 
-* firstTest.js - Connection test of the mysql node module
-
-## Note
-In case of root login authentication error, create and use admin account instead
-```sql
-CREATE USER 'admin'@'localhost' IDENTIFIED BY '';
-GRANT ALL PRIVILEGES ON * . * TO 'admin'@'localhost';
-FLUSH PRIVILEGES;
-```
+While there you can check out the structure of this repo, information about it and also read our documents about testing.
