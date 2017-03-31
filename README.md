@@ -1,5 +1,5 @@
 # projectary-tests
-Repository for
+Repository for testing the code from the projectary repos.
 
 ## Documentation
 
