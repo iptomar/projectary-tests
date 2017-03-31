@@ -5,11 +5,11 @@ Much of the code we make is prone to errors, including frontend, even if you don
 Most of it is should not be done with your eyes and that’s where **Automated Frontend Testing** comes in.
 
 > Contents:
-* [What’s Automated Frontend Testing?](#whats-automated-frontend-testing)
-* [Why do we need frontend testing?](#why-do-we-need-frontend-testing)
-* [Functional Testing](#functional-testing)
-* [Angular Testing](#angular-testing)
-* [Referenes](#references)
+> * [What’s Automated Frontend Testing?](#whats-automated-frontend-testing)
+> * [Why do we need frontend testing?](#why-do-we-need-frontend-testing)
+> * [Functional Testing](#functional-testing)
+> * [Angular Testing](#angular-testing)
+> * [Referenes](#references)
 
 
 ## What’s Automated Frontend Testing?

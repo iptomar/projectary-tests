@@ -1,10 +1,10 @@
 # Documentation
 
 > Contents
-* [Structure](#structure)
-* [Frontend Testing](#frontend-testing)
-  * [Angular Testing](#angular-testing)
-* [Notes](#notes)
+> * [Structure](#structure)
+> * [Frontend Testing](#frontend-testing)
+>  * [Angular Testing](#angular-testing)
+> * [Notes](#notes)
 
 ## Structure
 
