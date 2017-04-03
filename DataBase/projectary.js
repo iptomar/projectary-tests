@@ -7,16 +7,17 @@ var connection = mysql.createConnection({
   multipleStatements: true // Run queries with multiple statements
 });
 // User generation parameters --------------------------------------------------
-var nrUsers = 20000;
+var nrUsers = 2000;
 var users = [""];
-var passLenth = 10;
+var passLength = 10;
 // Functions for usergeneration ------------------------------------------------
 function genUsers() {
   for (var i = 0; i <= nrUsers; i++) {
     users[i] = {
-      username: 'User' + i,
-      password: genPass(passLenth),
-      email: 'User' + i + '@mail.com',
+      username: 'aluno' + i,
+	  password: genPass(passLength),
+	  name: 'Utilizador' + i,
+	  email: 'utilizador' + i + '@ipt.pt',
       type: genType(),
       extid: i
     };
@@ -25,11 +26,8 @@ function genUsers() {
 }
 function genType() {
   var rng = Math.random();
-  if (rng < 0.5) {
-    return 1;
-  } else {
-    return 2;
-  }
+  if (rng < 0.5) { return 1;} 
+  else { return 2;}
 }
 function genPass(passLength) {
   var alphaNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -43,11 +41,24 @@ function genPass(passLength) {
 // User generation -------------------------------------------------------------
 // Comment this line if you do not want user generation
 genUsers();
-// DB Queries ------------------------------------------------------------------
+
 connection.connect();
+
 // Insert new users from userlist ----------------------------------------------
-// NOT WORKING
-connection.query('CALL InsertNewUser(?)', users, function (error, results, fields) {
-  if (error) throw error;
-});
+/*for(var i = 0; i < users.length; i++){
+	connection.query('CALL API_InsertNewUser(?,?,?,?,?,?);', 
+	[users[i].username, users[i].password, 
+	users[i].name, users[i].email, users[i].type, users[i].extid], function (error, results, fields) {
+	  if (error) throw error;
+	});	
+}*/
+
+// Insert new entities ---------------------------------------------------------
+/*for(var i = 0; i < users.length; i++){
+	connection.query('CALL InsertNewEntity(?,?,?);', 
+	[users[i].name, users[i].type, users[i].extid], function (error, results, fields) {
+	  if (error) throw error;
+	});	
+}*/
+
 connection.end();
