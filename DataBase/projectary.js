@@ -1,5 +1,8 @@
+'use strict';
+
 var mysql = require('mysql');
-var user = require('./user.js');
+var user = new (require('./user.js'))();
+
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'admin',
@@ -9,7 +12,9 @@ var connection = mysql.createConnection({
 });
 
 connection.connect();
-// Procedure testing
 
-//
+// Procedure testing
+user.genUsers();
+user.insertUsers(connection);
+
 connection.end();
