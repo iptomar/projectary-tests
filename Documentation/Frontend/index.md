@@ -1,8 +1,8 @@
 # Frontend Testing
 
-Much of the code we make is prone to errors, including frontend, even if you don’t notice at first or you’re sure that none them can slip through your hands.
+Much of the code we make is prone to errors, including frontend, even if you don’t notice at first or you’re sure that no one of them can slip through your hands.
 
-Most of it is should not be done with your eyes and that’s where **Automated Frontend Testing** comes in.
+Most of it should not be done with your eyes and that’s where **Automated Frontend Testing** comes in.
 
 > Contents:
 > * [What’s Automated Frontend Testing?](#whats-automated-frontend-testing)
@@ -21,7 +21,7 @@ For instance:
 * CSS and JS changes that break things, even minor ones
 * Performance regressions
 
-Frontend development is becoming more critical and complex, we need to employ the same testing abilities that the backend has had for a long time. We might need to **test the page load times**, **test render speeds**, **verify that visual changes** have occurred or have not not occurred and some other times you might want to **accountability for code changes**.
+Frontend development is becoming more critical and complex, we need to employ the same testing abilities that the backend has had for a long time. We might need to **test the page load times**, **test render speeds**, **verify that visual changes** have occurred or don't have occurred and some other times you might want to **accountability for code changes**.
 
 ## Functional Testing
 **CasperJS**, using PhantomJS under the hood, allows for scripted actions to be tested.
