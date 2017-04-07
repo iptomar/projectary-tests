@@ -1,23 +1,34 @@
-var entities = [""];
-var nEntities = 2000;
+var utils = new (require('./utils.js'))();
 
-function genEntity(){
-	for(var i = 0; i<= nEntities; i++){
-		entities[i] = {
-			name: 'Entity' + i,
-			type: proj.genType(),
-			extid: i
-		}
-		console.log(entities[i]);
+class Entity {
+
+	constructor() {
+		this.entities = [""];
+		this.nEntities = 2000;
 	}
+
+	genEntity(){
+		for(var i = 0; i<= this.nEntities; i++){
+			this.entities[i] = {
+				name: 'Entity' + i,
+				type: utils.genType(),
+				extid: i
+			}
+			console.log(this.entities[i]);
+		}
+	}
+
+	insertEntity(connection){
+		var entities = this.entities;
+		// Insert new entities ---------------------------------------------------------
+		for(var i = 0; i < entities.length; i++){
+			connection.query('CALL InsertNewEntity(?,?,?);',
+			[entities[i].name, entities[i].type, entities[i].extid], function (error, results, fields) {
+			  if (error) throw error;
+			});
+		}
+	}
+
 }
 
-connection.connect();
-// Insert new entities ---------------------------------------------------------
-for(var i = 0; i < users.length; i++){
-	connection.query('CALL InsertNewEntity(?,?,?);',
-	[users[i].name, users[i].type, users[i].extid], function (error, results, fields) {
-	  if (error) throw error;
-	});
-}
-connection.end();
+module.exports = Entity;
