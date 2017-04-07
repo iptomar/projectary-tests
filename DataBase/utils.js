@@ -1,5 +1,3 @@
-'use strict';
-
 class Utils {
 
   // Used to decide if user is a student or a teacher(1-2)
