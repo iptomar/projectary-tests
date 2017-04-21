@@ -15,4 +15,4 @@ CasperJS is a navigation scripting & testing utility for the [PhantomJS](http://
 Facilitates the process of defining a navigation scenario.
 
 ## References
-* [CasperJS](http://http://casperjs.org/)
+* [CasperJS](http://casperjs.org/)
