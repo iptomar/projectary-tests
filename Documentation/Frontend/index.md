@@ -9,7 +9,7 @@ Most of it should not be done with your eyes and that’s where **Automated Fron
 > * [Why do we need frontend testing?](#why-do-we-need-frontend-testing)
 > * [Functional Testing](#functional-testing)
 > * [Angular Testing](#angular-testing)
-> * [Referenes](#references)
+> * [References](#references)
 
 
 ## What’s Automated Frontend Testing?
