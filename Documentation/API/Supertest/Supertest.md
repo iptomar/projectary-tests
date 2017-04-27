@@ -1,4 +1,4 @@
-* Supertest
+# Supertest
 
 > Contents:
 > * [What’s Supertest?](#whats-supertest)
