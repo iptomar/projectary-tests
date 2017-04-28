@@ -1,0 +1,26 @@
+{
+  "name": "projectary-tests",
+  "version": "1.0.0",
+  "description": "Repository for testing the code from the projectary repos.",
+  "main": "index.js",
+  "scripts": {
+    "api-test": "mocha API/main.js",
+    "capserjs-test": "",
+    "postinstall" : "webdriver-manager update",
+    "selenium-test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iptomar/projectary-tests.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "casperjs": "^1.1.3",
+    "chai": "^3.5.0",
+    "mocha": "^3.3.0",
+    "phantomjs-prebuilt": "^2.1.14",
+    "protractor": "^5.1.1",
+    "supertest": "^3.0.0"
+  }
+}
