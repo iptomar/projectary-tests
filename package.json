@@ -7,7 +7,8 @@
     "api-test": "mocha API/main.js",
     "capserjs-test": "",
     "postinstall" : "webdriver-manager update",
-    "selenium-test": ""
+    "selenium-test": "protractor Frontend/Selenium/conf.js",
+    "selenium-start": "webdriver-manager start"
   },
   "repository": {
     "type": "git",
