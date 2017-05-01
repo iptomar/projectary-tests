@@ -12,7 +12,13 @@ CasperJS documentation.
 
 CasperJS is a navigation scripting & testing utility for the [PhantomJS](http://phantomjs.org/) (WebKit) and [SlimerJS](http://slimerjs.org/) (Gecko) headless browsers, written in Javascript.
 
-Example:
+* [CasperJS QuickStart](http://docs.casperjs.org/en/latest/quickstart.html)
+
+## Why do we need CasperJS?
+
+Facilitates the process of defining a navigation scenario.
+
+## Examples
 
 ```js
 // hello-world.js
@@ -31,12 +37,6 @@ Test file: hello-world.js
 PASS Subject is strictly true
 PASS 1 test executed in 0.023s, 1 passed, 0 failed, 0 dubious, 0 skipped.
 ```
-
-* [CasperJS QuickStart](http://docs.casperjs.org/en/latest/quickstart.html)
-
-## Why do we need CasperJS?
-
-Facilitates the process of defining a navigation scenario.
 
 ## References
 

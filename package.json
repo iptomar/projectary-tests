@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "api-test": "mocha API/main.js",
-    "capserjs-test": "",
+    "casperjs-test": "casperjs test Frontend/CasperJS/main.js",
     "postinstall" : "webdriver-manager update",
     "selenium-test": "protractor Frontend/Selenium/conf.js",
     "selenium-start": "webdriver-manager start"
