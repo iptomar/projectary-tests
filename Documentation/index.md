@@ -29,7 +29,7 @@ To install every component you just need NodeJS. Run `npm install` and everythin
 
 ## Run
 
-You need to run each component separately has a way to run:
+You need to run each component separately:
 
 **API** - To run just do `npm run api-test`.
 
@@ -37,13 +37,13 @@ You need to run each component separately has a way to run:
 
 **Protractor** - Before running it **you need to have java installed** and we should **only run it using a desktop enviroment**.
 
-Protractor needs to have a selenium server so we automatically install the official standalone server (a .jar file) during instalation. To start the server do `npm run selenium-start` and on a different terminal run `npm run selenium-test` to run the tests.
+Protractor needs to have a selenium server so we automatically install the official standalone server (a .jar file) during installation. To start the server do `npm run selenium-start` and on a different terminal do `npm run selenium-test` to run the tests.
 
 
 ## API Testing
 Our section about API testing is located [here](API/index.md).
 
-* **Supertest**: Our section about testing angularjs is located [here](API/Supertest.md).
+* **Supertest**: Our section about testing angularjs is located [here](API/Supertest/Supertest.md).
 
 ## Database Testing
 Our section about database testing is located [here](Database/index.md)
