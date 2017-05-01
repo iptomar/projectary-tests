@@ -2,34 +2,57 @@
 
 > Contents
 > * [Structure](#structure)
-> * [Frontend Testing](#frontend-testing)
->   * [Angular Testing](#angular-testing)
+> * [Install](#install)
+> * [Run](#run)
 > * [API Testing](#api-testing)
-> * [Notes](#notes)
+> * [Database Testing](#database-testing)
+> * [Frontend Testing](#frontend-testing)
+>   * Angular Testing
+>   * CasperJS
+>   * Selenium
+>   * PhantomJS
+>   * Protractor
 
 ## Structure
 
-DataBase - Folder that holds all of the testing relative to the database
+API - Folder that holds all of the testing relative to the api.
+
+* api_test.js - File containing api testing methods
+
+Database - Folder that holds all of the testing relative to the database.
 
 * getLatestDB.sh - bash script to download the latest available database dump from the repo to a .sql and then run it.
 
-API - Folder that holds all of the testing relative to the api
+## Install
 
-* api_test.js - File containing api testing methods
+To install every component you just need NodeJS. Run `npm install` and everything should be installed after a few minutes.
+
+## Run
+
+You need to run each component separately has a way to run:
+
+**API** - To run just do `npm run api-test`.
+
+**CasperJS** - To run just do `npm run casperjs-test`.
+
+**Protractor** - Before running it **you need to have java installed** and we should **only run it using a desktop enviroment**.
+
+Protractor needs to have a selenium server so we automatically install the official standalone server (a .jar file) during instalation. To start the server do `npm run selenium-start` and on a different terminal run `npm run selenium-test` to run the tests.
+
+
+## API Testing
+Our section about API testing is located [here](API/index.md).
+
+* **Supertest**: Our section about testing angularjs is located [here](API/Supertest.md).
+
+## Database Testing
+Our section about database testing is located [here](Database/index.md)
 
 ## Frontend Testing
 Our section about frontend testing is located [here](Frontend/index.md).
 
-### Angular Testing
-Our section about testing angularjs is located [here](Frontend/Angular/angular.md).
-
-### API Testing
-Our section about api testing is located [here](API/index.md).
-
-## Notes
-In case of root login authentication error, create and use admin account instead
-```sql
-CREATE USER 'admin'@'localhost' IDENTIFIED BY '';
-GRANT ALL PRIVILEGES ON * . * TO 'admin'@'localhost';
-FLUSH PRIVILEGES;
-```
+* **Angular Testing**: Our section about testing angularjs is located [here](Frontend/Angular/angular.md).
+* **CasperJS**: Our section about casperJS is located [here](Frontend/CasperJS/CasperJS.md).
+* **Selenium**: Our section about selenium is located [here](Frontend/Selenium/Selenium.md).
+* **PhantomJS**: Our section about phantomJS is located [here](Frontend/PhantomJS/PhantomJS.md).
+* **Protractor**: Our section about protractor is located [here](Frontend/Selenium/Protractor.md).
