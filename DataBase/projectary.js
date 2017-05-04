@@ -4,9 +4,9 @@ var entity = new (require('./entity.js'))();
 
 var connection = mysql.createConnection({
   host: 'localhost',
-  user: 'admin',
-  password: '',
-  database: 'projectary',
+  user: 'root',
+  password: '123qwe',
+  database: 'projectary-master',
   multipleStatements: true // Run queries with multiple statements
 });
 

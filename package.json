@@ -6,7 +6,7 @@
   "scripts": {
     "api-test": "mocha API/main.js",
     "casperjs-test": "casperjs test Frontend/CasperJS/main.js",
-    "postinstall" : "webdriver-manager update",
+    "postinstall": "webdriver-manager update",
     "selenium-test": "protractor Frontend/Selenium/conf.js",
     "selenium-start": "webdriver-manager start"
   },
@@ -20,6 +20,7 @@
     "casperjs": "^1.1.3",
     "chai": "^3.5.0",
     "mocha": "^3.3.0",
+    "mysql": "^2.13.0",
     "phantomjs-prebuilt": "^2.1.14",
     "protractor": "^5.1.1",
     "supertest": "^3.0.0"
