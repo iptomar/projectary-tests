@@ -25,11 +25,17 @@ function getUser(index){
   var searchString = "/user";
   if (index != null) searchString = "/user/" + index;
   describe("GET User", function (){
+    // Get user/users info
     it("Return users", function(done){
       request(url)
       .get(searchString)
       .auth("teste@ipt.pt","secret")
-      .expect(200, done)
+      .expect(200)
+      .end(function(err, res){
+        if (err) return done(err);
+        done();
+        console.log(res.body);
+      });
     });
   });
 };
@@ -60,10 +66,25 @@ function getProject(index){
       request(url)
       .get(searchString)
       .auth("teste@ipt.pt","secret")
-      .expect(200, done)
+      .expect(200)
+      .end(function(err, res){
+        if (err) return done(err);
+        done();
+        console.log(res.body);
+      });
     });
   });
 };
 
 // TESTS -----------------------------------------------------------------------
-getProject(1);
+/*var user = {
+  "name": "Teste",
+	"external":  "1",
+	"type": "1",
+	"email": "teste@ipt.pt",
+	"phone": "911234567",
+	"password": "secret"
+}
+postUser(user);*/
+
+getUser();
