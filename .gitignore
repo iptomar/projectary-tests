@@ -56,3 +56,6 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# MySQL config files
+.my.cnf
