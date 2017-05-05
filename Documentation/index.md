@@ -27,6 +27,16 @@ Database - Folder that holds all of the testing relative to the database.
 
 To install every component you just need NodeJS. Run `npm install` and everything should be installed after a few minutes.
 
+## Setup and Dependencies
+
+**Database**
+* Dependencies: bash, mysql and mysqldump.
+* It uses a [mysql option file](https://dev.mysql.com/doc/refman/5.7/en/option-files.html), example [here](Database/.my.cnf). Name it `.my.cnf`, place it on the Database folder with read-only permissions (chmod or file permissions).
+
+**Protractor**
+* Dependencies: java and a desktop enviroment.
+* Protractor needs to have a selenium server so we automatically install the official standalone server (a .jar file) during installation.
+
 ## Run
 
 You need to run each component separately:
@@ -35,9 +45,9 @@ You need to run each component separately:
 
 **CasperJS** - To run just do `npm run casperjs-test`.
 
-**Protractor** - Before running it **you need to have java installed** and we should **only run it using a desktop enviroment**.
+**Database** - To run just do `npm run db-test`.
 
-Protractor needs to have a selenium server so we automatically install the official standalone server (a .jar file) during installation. To start the server do `npm run selenium-start` and on a different terminal do `npm run selenium-test` to run the tests.
+**Protractor** - To start the server do `npm run selenium-start` and on a different terminal do `npm run selenium-test` to run the tests.
 
 
 ## API Testing
