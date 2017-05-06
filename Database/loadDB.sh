@@ -1,7 +1,5 @@
-#!/bin/bash
-
 # get the dump from upstream
-wget --no-verbose https://raw.githubusercontent.com/iptomar/projectary-bd/master/projectary-bd-dump.sql
+wget --quiet https://raw.githubusercontent.com/iptomar/projectary-bd/master/projectary-bd-dump.sql -O projectary-bd-dump.sql
 # import the dump using a config file
 # --default-file - read only config file with the user and password to be used
 mysql --defaults-file="./.my.cnf" < projectary-bd-dump.sql
