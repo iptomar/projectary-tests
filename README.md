@@ -27,7 +27,7 @@ To install every component you just need NodeJS. Run `npm install` and everythin
 
 **Database**
 * Dependencies: bash, rm command, wget, mysql and mysqldump.
-* It uses a [mysql option file](https://dev.mysql.com/doc/refman/5.7/en/option-files.html), example [here](Database/.my.cnf). Name it `.my.cnf`, place it on the Database folder with read-only permissions (chmod or file permissions).
+* It uses a [mysql option file](https://dev.mysql.com/doc/refman/5.7/en/option-files.html), example [here](Documentation/Database/.my.cnf). Name it `.my.cnf`, place it on the Database folder with read-only permissions (chmod or file permissions).
 * Due to the lack of support for async/await in the node version being used we need to use babel - with [this plugin](https://babeljs.io/docs/plugins/transform-async-to-generator/) - and build it first. Build it with `npm run db-build`. To run just do `npm run db-test`.
 
 
