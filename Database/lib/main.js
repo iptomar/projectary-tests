@@ -25,6 +25,7 @@ async function start() {
     // # User generation and insertion
     await user.genUsers();
     await user.insertUsers(connection);
+    await connection.end();
   } catch (error) {
     await connection.end();
     return;
