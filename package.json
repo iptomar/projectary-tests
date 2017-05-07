@@ -9,7 +9,7 @@
     "db-build": "cd Database && babel lib --out-dir build",
     "db-test": "cd Database && node main.js",
     "postinstall": "webdriver-manager update",
-    "selenium-test": "protractor Frontend/Selenium/conf.js",
+    "selenium-test": "protractor Frontend/Protractor/conf.js",
     "selenium-start": "webdriver-manager start"
   },
   "repository": {
@@ -21,8 +21,8 @@
   "dependencies": {
     "casperjs": "^1.1.3",
     "chai": "^3.5.0",
+    "chalk": "^1.1.3",
     "colors": "^1.1.2",
-    "fs": "0.0.1-security",
     "ini": "^1.3.4",
     "mocha": "^3.3.0",
     "mysql": "^2.13.0",

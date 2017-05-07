@@ -6,10 +6,15 @@ class Database {
    * and create the test database
    */
   async load() {
-    var _getDB = await this.getDB();
-    var _importDB = await this.importDB();
-    var _createTestDB = await this.createTestDB();
+    try {
+      await this.getDB();
+      await this.importDB();
+      await this.createTestDB();
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
+
 
   /**
    * Gets the latest database dump file from db repo
