@@ -31,7 +31,6 @@ class Utils {
   execPromise(cmd) {
     return new Promise(function (resolve, reject) {
       exec(cmd, { stdio: [0, 1, 2] }, (error, stdout, stderr) => {
-        //console.log(error, stdout, stderr);
         // if stderr is empty then there's no error 
         if (!error) {
           resolve(stdout);
