@@ -1,5 +1,5 @@
 var exec = require('child_process').exec;
-var colors = require('colors');
+var chalk = require('chalk');
 
 class Utils {
 
@@ -8,8 +8,8 @@ class Utils {
    */
   genType() {
     var rng = Math.random();
-    if (rng < 0.5) { return 1;}
-    else { return 2;}
+    if (rng < 0.5) { return 1; }
+    else { return 2; }
   }
 
   /**
@@ -30,12 +30,13 @@ class Utils {
    */
   execPromise(cmd) {
     return new Promise(function (resolve, reject) {
-      exec(cmd, {stdio:[0,1,2]}, (error, stdout, stderr) => {
+      exec(cmd, { stdio: [0, 1, 2] }, (error, stdout, stderr) => {
+        //console.log(error, stdout, stderr);
         // if stderr is empty then there's no error 
         if (!error) {
           resolve(stdout);
         } else {
-          reject(new Error(error));
+          reject(new Error(error.message));
         }
       });
     });
@@ -53,6 +54,7 @@ class Utils {
       this.log('success', successMsg);
     } catch (error) {
       this.log('fail', failedMsg + '\n' + error.message);
+      throw new Error(error.message);
     }
   }
 
@@ -61,17 +63,17 @@ class Utils {
    * status - 'success', 'fail' or 'warning' - testing status of the message
    * msg - message to print
    */
-  async log(status, msg){
-    var successLabel = '\u2713 SUCCESS '.green;
-    var failedLabel = '\u2715 FAIL '.red;
-    var warningLabel = '\u26a0 WARNING '.yellow;
+  async log(status, msg) {
+    var successLabel = chalk.green.bold('\SUCCESS ');
+    var failedLabel = chalk.red.bold('FAIL ');
+    var warningLabel = chalk.yellow.bold('WARNING ');
 
     switch (status) {
       case 'success':
         console.log(successLabel + msg);
         break;
       case 'fail':
-        console.log(failedLabel + msg);
+        console.error(failedLabel + msg);
         break;
       case 'warning':
         console.log(warningLabel + msg);

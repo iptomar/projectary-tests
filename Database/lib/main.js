@@ -1,5 +1,5 @@
-var fs = require('fs');
 var ini = require('ini');
+var fs = require('fs');
 var mysql = require('mysql');
 
 // Loads modules
@@ -19,19 +19,16 @@ var connection = mysql.createConnection({
 });
 
 async function start() {
-  await database.load();
-  
-  await connection.connect();
-
-  // User generation and insertion
-  await user.genUsers();
-  //await user.insertUsers(connection);
-
-  // Entity generation and insertion
-  await entity.genEntity();
-  //await entity.insertEntity(connection);
-
-  await connection.end();
+  try {
+    await database.load();
+    await connection.connect();
+    // # User generation and insertion
+    await user.genUsers();
+    await user.insertUsers(connection);
+  } catch (error) {
+    await connection.end();
+    return;
+  }
 }
 
 module.exports.start = start;
