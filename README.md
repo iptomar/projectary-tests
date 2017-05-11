@@ -23,7 +23,7 @@ To install every component you just need NodeJS. Run `npm install` and everythin
 
 **API** - To run just do `npm run api-test`.
 
-**CasperJS** - To run just do `npm run casperjs-test`.
+**CasperJS** - The only prerequisite, PhantomJS, is installed automatically. If you would like to a have a color output just install [ansicon](https://github.com/adoxa/ansicon). To run just do `npm run casperjs-test`.
 
 **Database**
 * Dependencies: bash, rm command, wget, mysql and mysqldump.
