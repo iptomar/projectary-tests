@@ -1,20 +1,21 @@
 var utils = new (require('./utils.js'))();
 
 class Database {
+
   /**
-   * Load the upstream db from the repo, import the dump
+   * Get the upstream db from the repo, import the dump
    * and create the test database
    */
-  async load() {
+  async start() {
     try {
       await this.getDB();
       await this.importDB();
       await this.createTestDB();
+      await this.checkTables();
     } catch (error) {
       throw new Error(error.message);
     }
   }
-
 
   /**
    * Gets the latest database dump file from db repo
@@ -22,7 +23,7 @@ class Database {
   async getDB() {
     await utils.cmd(`
       wget --quiet https://raw.githubusercontent.com/iptomar/projectary-bd/master/projectary-bd-dump.sql -O projectary-bd-dump.sql
-    `, 'Downloaded the latest database', 'Failed to download the latest database');
+      `, 'Downloaded the latest database', 'Failed to download the latest database');
   }
 
   /**
@@ -35,13 +36,14 @@ class Database {
     await utils.cmd(`
       mysql --defaults-file="./.my.cnf" < projectary-bd-dump.sql
       rm projectary-bd-dump.sql
-    `, 'Imported the database', 'Failed to import the database');
+      `, 'Imported the database', 'Failed to import the database');
   }
 
   /**
    * Duplicates the existing projectary-master to a new tests database
    * called projectary_tests.
-   * The projectary-tests db is only for testing purposes of this program
+   * The projectary-tests db is only for testing purposes of this program.
+   * --routines - Dump stored routines (procedures and functions) from dumped databases
    */
   async createTestDB() {
     await utils.cmd(`
@@ -50,7 +52,16 @@ class Database {
       mysql --defaults-file="./.my.cnf" -e "CREATE DATABASE IF NOT EXISTS projectary_tests"
       mysql --defaults-file="./.my.cnf" projectary_tests < dump.sql
       rm -f dump.sql
-    `, 'Created projectary-tests database from projectary-master', 'Failed to create projectary-tests');
+      `, 'Created projectary-tests database from projectary-master', 'Failed to create projectary-tests');
+  }
+
+  /**
+   * With mysqlcheck verify if everything is ok with the tables
+   */
+  async checkTables() {
+    await utils.cmd(`
+      mysqlcheck --defaults-file="./.my.cnf" --analyze projectary_tests
+      `, 'Checked tables successfully', 'Failed on checking tables');
   }
 }
 

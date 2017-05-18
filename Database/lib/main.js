@@ -20,11 +20,12 @@ var connection = mysql.createConnection({
 
 async function start() {
   try {
-    await database.load();
+    // start database tests and their tables
+    await database.start();
+    
     await connection.connect();
-    // # User generation and insertion
-    await user.genUsers();
-    await user.insertUsers(connection);
+    // start user tests
+    await user.start(connection);
     await connection.end();
   } catch (error) {
     await connection.end();
