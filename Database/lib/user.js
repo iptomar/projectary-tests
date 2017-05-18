@@ -24,7 +24,7 @@ class User {
   async truncate() {
     await utils.cmd(`
       mysql --defaults-file="./.my.cnf" -e "TRUNCATE projectary_tests.user;"
-      `, 'Truncated table users', 'Failed to truncate table users');
+      `, 'Truncated table user', 'Failed to truncate table user');
   }
 
   /**

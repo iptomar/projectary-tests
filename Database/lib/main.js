@@ -5,7 +5,7 @@ var mysql = require('mysql');
 // Loads modules
 var database = new (require('./database.js'))();
 var user = new (require('./user.js'))();
-var entity = new (require('./entity.js'))();
+var course = new (require('./course.js'))();
 
 // Loads MySQL config file
 var config = ini.parse(fs.readFileSync('./.my.cnf', 'utf8'));
@@ -24,8 +24,12 @@ async function start() {
     await database.start();
     
     await connection.connect();
-    // start user tests
+    
+    // start user table tests
     await user.start(connection);
+    // start course table tests
+    await course.start(connection);
+
     await connection.end();
   } catch (error) {
     await connection.end();
