@@ -2,51 +2,53 @@ var utils = new (require('./utils.js'))();
 
 class User {
 
-  constructor() {
-    // User generation parameters --------------------------------------------------
-    this.nrUsers = 10;
-    this.users = [""];
-    this.passLength = 10;
-  }
+  /**
+   * Truncate the user table and test insertions
+   */
+  async start(connection) {
+    this.connection = connection;
 
-  // Functions for usergeneration ------------------------------------------------
-  genUsers() {
-    for (var i = 0; i <= this.nrUsers; i++) {
-      this.users[i] = {
-        //username: 'username' + i,
-        name: 'Name' + i,
-        password: utils.genPass(this.passLength),
-        email: 'email' + i + '@ipt.pt',
-        type: utils.genType(),
-        // extid: i
-      };
-      //console.log(this.users[i]);
+    try {
+      await this.truncate();
+      await this.insertUsers();
+    } catch (error) {
+      throw new Error(error.message);
     }
-    utils.log('success', 'Generated Users');
   }
 
-  // User generation -------------------------------------------------------------
-  // Insert new users from userlist ----------------------------------------------
-  insertUsers(connection) {
-    var users = this.users;
-
-    for (var i = 0; i < users.length; i++) {
-      connection.query('INSERT INTO user(name, typeid, email, password) VALUES (?, ?, ?, ?);',
-        [users[i].name, users[i].type, users[i].email, users[i].password],
-        function (error, results, fields) {
-          if (error) utils.log('fail', 'Failed to insert user\n' + error.message);
-          else utils.log('success', 'Inserted user');
-        });
-    }
-
-		/*
-		connection.query('SELECT * FROM USER;', function (error, results, fields) {
-			if (error) utils.log('fail', 'Failed to insert users\n' + error.message);
-			else utils.log('success', 'Inserted users');
-		});
-		*/
+  /**
+   * Truncate the user table so we while performing insertions
+   * we can correctly track the number of rows before and 
+   * after the insertions.
+   */
+  async truncate() {
+    await utils.cmd(`
+      mysql --defaults-file="./.my.cnf" -e "TRUNCATE projectary_tests.user;"
+      `, 'Truncated table users', 'Failed to truncate table users');
   }
 
+  /**
+   * Insert 10 users, 5 students and 5 teachers, and check
+   * if they're inserted by counting the number of rows
+   * before and after the insertion of users.
+   */
+  async insertUsers() {
+    var rowsCount = null;
+
+    await this.connection.query('SELECT * FROM user;', await function (error, results, fields) {
+      rowsCount = results.length;
+    });
+
+    await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/insertUsers.sql`);
+
+    await this.connection.query('SELECT * FROM user;', await function (error, results, fields) {      
+      if (rowsCount + 10 == results.length) {
+        utils.log('success', 'Inserted 10 users successfully');
+      } else {
+        utils.log('fail', 'Failed to insert users');
+      }
+    });
+  }
 }
 
 module.exports = User;
