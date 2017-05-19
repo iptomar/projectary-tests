@@ -8,6 +8,9 @@ var userType = new (require('./type.js'))();
 var user = new (require('./user.js'))();
 var school = new (require('./school.js'))();
 var course = new (require('./course.js'))();
+var group = new (require('./group.js'))();
+var project = new (require('./project.js'))();
+var application = new (require('./application.js'))();
 
 // Loads MySQL config file
 var config = ini.parse(fs.readFileSync('./.my.cnf', 'utf8'));
@@ -35,6 +38,12 @@ async function start() {
     await school.start(connection);
     // start course table tests
     await course.start(connection);
+    // start group table tests
+    await group.start(connection);
+    // start project table tests
+    await project.start(connection);
+    // start application table tests
+    await application.start(connection);
 
     await connection.end();
   } catch (error) {

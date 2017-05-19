@@ -3,7 +3,7 @@ var utils = new (require('./utils.js'))();
 class School {
 
   /**
-   * Truncate the user table and test insertions
+   * Truncate the school table and test insertions
    */
   async start(connection) {
     this.connection = connection;
@@ -17,7 +17,7 @@ class School {
   }
 
   /**
-   * Truncate the user table so we while performing insertions
+   * Truncate the school table so we while performing insertions
    * we can correctly track the number of rows before and 
    * after the insertions.
    */
