@@ -61,7 +61,6 @@ function getUser(index){
       .end(function(err, res){
         if (err) return done(err);
         done();
-        console.log(res.body);
       });
     });
   });
@@ -94,7 +93,6 @@ function getPendingUser(){
       .end(function(err, res){
         if (err) return done(err);
         done();
-        console.log(res.body);
       });
     });
   });
@@ -156,6 +154,20 @@ function createTeacher(teacher){
   });
 }
 
+function alterUser(details) {
+  describe("PUT", function (){
+    it("Change the details of a user", function(done){
+      request(url)
+      .put("/user")
+      .send(details)
+      .auth("teste@ipt.pt","secret")
+      .expect(200, done)
+    });
+  });
+}
+
+// PROJECTS --------------------------------------------------------------------
+
 /*
   Creates a project
 
@@ -192,13 +204,11 @@ function getProject(index){
       .end(function(err, res){
         if (err) return done(err);
         done();
-        console.log(res.body);
       });
     });
   });
 };
 
-// not working
 function alterProject(details) {
   describe("PUT", function (){
     it("Change the details of a project", function(done){
@@ -225,7 +235,6 @@ function getProjectApplications(index) {
       .end(function(err, res){
         if (err) return done(err);
         done();
-        console.log(res.body);
       });
     });
   });
@@ -244,7 +253,6 @@ function getGroup(index){
       .end(function(err, res){
         if (err) return done(err);
         done();
-        console.log(res.body);
       });
     });
   });
@@ -303,11 +311,13 @@ function removeGroup(index) {
   "password":"secret"
 }
 */
-function updateGroup(details) {
+function alterGroup(index, details) {
+  var searchString = "/group";
+  if (index != null) searchString = "/group/" + index;
   describe("PUT", function (){
     it("Update group details", function(done){
       request(url)
-      .put("/group/2")
+      .put(searchString)
       .send(details)
       .auth("teste@ipt.pt","secret")
       .expect(200, done)
@@ -326,7 +336,6 @@ function getSchools(){
         .end(function(err, res){
           if(err) return done(err);
           done();
-          console.log(res.body);
         });
     });
   });
@@ -343,7 +352,6 @@ function getCourse(index){
       .end(function(err, res){
         if (err) return done(err);
         done();
-        console.log(res.body);
       });
     });
   });
@@ -360,7 +368,6 @@ function getAttribute(){
         .end(function(err, res){
           if(err) return done(err);
           done();
-          console.log(res.body);
         });
     });
   });
@@ -394,7 +401,6 @@ function getApplication(index) {
         .end(function(err, res){
           if(err) return done(err);
           done();
-          console.log(res.body);
         });
     });
   });
@@ -438,11 +444,3 @@ function test404Routes() {
     });
   });
 }
-
-// TESTS -----------------------------------------------------------------------
-/*createProject({
-  "name": "Teste2",
-  "description":  "Something else",
-  "course": "1"
-})*/
-test404Routes();
