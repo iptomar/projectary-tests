@@ -4,6 +4,7 @@ var mysql = require('mysql');
 
 // Loads modules
 var database = new (require('./database.js'))();
+var userType = new (require('./type.js'))();
 var user = new (require('./user.js'))();
 var school = new (require('./school.js'))();
 var course = new (require('./course.js'))();
@@ -26,6 +27,8 @@ async function start() {
     
     await connection.connect();
     
+    // start type of users table tests
+    await userType.start(connection);
     // start user table tests
     await user.start(connection);
     // start school table tests
