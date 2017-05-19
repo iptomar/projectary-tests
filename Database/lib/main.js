@@ -5,6 +5,7 @@ var mysql = require('mysql');
 // Loads modules
 var database = new (require('./database.js'))();
 var user = new (require('./user.js'))();
+var school = new (require('./school.js'))();
 var course = new (require('./course.js'))();
 
 // Loads MySQL config file
@@ -27,6 +28,8 @@ async function start() {
     
     // start user table tests
     await user.start(connection);
+    // start school table tests
+    await school.start(connection);
     // start course table tests
     await course.start(connection);
 

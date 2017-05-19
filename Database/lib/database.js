@@ -52,7 +52,7 @@ class Database {
       mysql --defaults-file="./.my.cnf" -e "CREATE DATABASE IF NOT EXISTS projectary_tests"
       mysql --defaults-file="./.my.cnf" projectary_tests < dump.sql
       rm -f dump.sql
-      `, 'Created projectary-tests database from projectary-master', 'Failed to create projectary-tests');
+      `, 'Created projectary_tests database from projectary-master', 'Failed to create projectary_tests');
   }
 
   /**
