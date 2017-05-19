@@ -1,10 +1,10 @@
   app.get('/user', auth, routes.user.list); 				done	works
-  app.put('/user', auth, routes.user.update); 				done
+  app.put('/user', auth, routes.user.update); 				done	works
   app.get('/user/pending', auth, routes.user.pending);			done	works
   app.get('/user/:id', auth, routes.user.info); 			done	works
   app.post('/user/:id/approve', auth, routes.user.approve); 		done	works
   app.post('/user', routes.user.createStudent);				done	works
-  app.post('/teacher', auth, routes.user.createTeacher);		done
+  app.post('/teacher', auth, routes.user.createTeacher);		done	works
   app.put('/user/chpassword', auth, routes.user.chPassword);		done	works
   app.put('/user/:id/swlock', auth, routes.user.swLock);		done	works
 
@@ -14,7 +14,7 @@
   app.post('/project', auth, routes.project.create);			done	works
   app.get('/project', auth, routes.project.list);			done	works
   app.get('/project/:id', auth, routes.project.info);			done	works
-  app.put('/project/:id', auth, routes.project.update);
+  app.put('/project/:id', auth, routes.project.update);			pending fix
   app.get('/project/:id/applications', auth, routes.project.applInfo);	done	works
 
   app.post('/group/create', auth, routes.group.create);			done	works
@@ -22,7 +22,7 @@
   app.delete('/group/:id', auth, routes.group.remove);			done	works
   app.get('/group', auth, routes.group.list);				done	works
   app.get('/group/:id', auth, routes.group.info);			done	works
-  app.put('/group/:id', auth, routes.group.update);
+  app.put('/group/:id', auth, routes.group.update);			pending fix
 
   app.get('/application', auth, routes.application.list);		done	works
   app.post('/application', auth, routes.application.create);		done	works
