@@ -1,0 +1,39 @@
+  app.get('/user', auth, routes.user.list); 				done	works
+  app.put('/user', auth, routes.user.update); 				done
+  app.get('/user/pending', auth, routes.user.pending);			done	works
+  app.get('/user/:id', auth, routes.user.info); 			done	works
+  app.post('/user/:id/approve', auth, routes.user.approve); 		done	works
+  app.post('/user', routes.user.createStudent);				done	works
+  app.post('/teacher', auth, routes.user.createTeacher);		done
+  app.put('/user/chpassword', auth, routes.user.chPassword);		done	works
+  app.put('/user/:id/swlock', auth, routes.user.swLock);		done	works
+
+  app.post('/attribute', auth, routes.attribute.create);		done	works
+  app.get('/attribute',auth, routes.attribute.list);			done	works
+
+  app.post('/project', auth, routes.project.create);			done	works
+  app.get('/project', auth, routes.project.list);			done	works
+  app.get('/project/:id', auth, routes.project.info);			done	works
+  app.put('/project/:id', auth, routes.project.update);
+  app.get('/project/:id/applications', auth, routes.project.applInfo);	done	works
+
+  app.post('/group/create', auth, routes.group.create);			done	works
+  app.post('/group/join', auth, routes.group.join);			done	works
+  app.delete('/group/:id', auth, routes.group.remove);			done	works
+  app.get('/group', auth, routes.group.list);				done	works
+  app.get('/group/:id', auth, routes.group.info);			done	works
+  app.put('/group/:id', auth, routes.group.update);
+
+  app.get('/application', auth, routes.application.list);		done	works
+  app.post('/application', auth, routes.application.create);		done	works
+  app.get('/application/:id', auth, routes.application.info);		done
+  app.post('/application/accept', auth, routes.application.accept);	done	works
+
+  app.get('/school', routes.school.list); 				done	works
+  app.get('/course/:id', routes.school.getCourse);			done	works
+
+  app.post('/login', auth, routes.user.login);				done	works
+
+  app.all('*', function(req, res) {
+    res.status(404).json({ 'result': 'nok', 'message': 'Route could not be found'});	done	works
+  });
