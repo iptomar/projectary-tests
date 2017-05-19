@@ -3,7 +3,7 @@ var utils = new (require('./utils.js'))();
 class Course {
 
   /**
-   * Truncate the user table and test insertions
+   * Truncate the course table and test insertions
    */
   async start(connection) {
     this.connection = connection;
@@ -17,7 +17,7 @@ class Course {
   }
 
   /**
-   * Truncate the user table so we while performing insertions
+   * Truncate the course table so we while performing insertions
    * we can correctly track the number of rows before and 
    * after the insertions.
    */
@@ -32,21 +32,31 @@ class Course {
    * the number of rows before and after the insertion of courses.
    */
   async insertCourses() {
-    var rowsCount = null;
+    try {
+      var rowsCount;
 
-    await this.connection.query('SELECT * FROM projectary_tests.course;', await function (error, results, fields) {
-      rowsCount = results.length;
-    });
+      await this.connection.query('SELECT * FROM projectary_tests.course;', await function (error, results, fields) {
+        rowsCount = results.length;
+      });
 
-    await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/insertCourses.sql`);
-
-    await this.connection.query('SELECT * FROM projectary_tests.course;', await function (error, results, fields) {      
-      if (rowsCount + 5 == results.length) {
-        utils.log('success', 'Inserted 5 courses successfully');
-      } else {
-        utils.log('fail', 'Failed to insert courses');
+      // mysqltest
+      try {
+        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/insertCourses.sql`);
+      } catch (error) {
+        throw new Error(error);
       }
-    });
+
+      await this.connection.query('SELECT * FROM projectary_tests.course;', await function (error, results, fields) {
+        if (rowsCount + 5 == results.length) {
+          utils.log('success', 'Inserted 5 courses successfully');
+        } else {
+          utils.log('fail', 'The number of rows before and after the insertion do not match');
+        }
+      });
+    } catch (error) {
+      utils.log('fail', 'Failed to insert courses \n' + error);
+      return;
+    }
   }
 }
 
