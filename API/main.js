@@ -1,31 +1,44 @@
 var request = require('supertest');
 var url = "http://localhost:8080";
 
-// USERS -----------------------------------------------------------------------
+// USERS  -----------------------------------------------------------------------
 /*
-	"name": "Teste",
-	"external":  "1",
-	"type": "1",
-	"email": "teste@ipt.pt",
-	"phone": "911234567",
-	"password": "secret"
-};*/
-function authUser(){
+  Authenticates a given user
+
+  {
+    "username":"teste@ipt.pt",
+    "password":"secret"
+  }
+
+*/
+function authUser(user){
   describe("LOGIN", function(){
     it("Auth", function(done){
-    request(url)
+      request(url)
       .post("/login")
       .auth("teste@ipt.pt","secret")
-      .send({"username":"teste@ipt.pt", "password":"secret"})
+      .send(user)
       .expect(200, done)
     });
   });
 };
 
-function postUser(user){
+/*
+  Creates a user
+
+  {
+  	"name": "Teste",
+  	"external":  "1",
+  	"type": "1",
+  	"email": "teste@ipt.pt",
+  	"phone": "911234567",
+  	"password": "secret"
+  }
+*/
+function createUser(user){
   describe("POST", function (){
-    it("Create user", function(done){
-    request(url)
+    it("Create a user", function(done){
+      request(url)
       .post("/user")
       .send(user)
       .expect(200, done)
@@ -33,11 +46,13 @@ function postUser(user){
   });
 };
 
+/*
+  Returns info about a specific user or all users
+*/
 function getUser(index){
   var searchString = "/user";
   if (index != null) searchString = "/user/" + index;
   describe("GET", function (){
-    // Get user/users info
     it("Return users", function(done){
       request(url)
       .get(searchString)
@@ -46,26 +61,31 @@ function getUser(index){
       .end(function(err, res){
         if (err) return done(err);
         done();
+        console.log(res.body);
       });
     });
   });
 };
 
+/*
+  Marks a user as active, enabling the user account
+*/
 function approveUser(index) {
   describe("POST", function (){
     it("Approve user", function(done){
-    request(url)
+      request(url)
       .post("/user/" + index + "/approve")
       .auth("teste@ipt.pt","secret")
-      .send({"id":index+""})
       .expect(200, done)
     });
   });
 }
 
+/*
+  Returns the list of users still inactive
+*/
 function getPendingUser(){
   describe("GET", function (){
-    // Get user/users info
     it("Return pending users", function(done){
       request(url)
       .get("/user/pending")
@@ -74,37 +94,78 @@ function getPendingUser(){
       .end(function(err, res){
         if (err) return done(err);
         done();
+        console.log(res.body);
       });
     });
   });
 };
 
-// TEACHERS --------------------------------------------------------------
 /*
-  "name": "user",
-  "external_id": "15000",
-  "email": "user@ipt.pt",
-  "phonenumber": "555123123",
-  "password": "secret"
+ Locks a user account, disabling its use
 */
-function postTeacher(teacher){
-  describe("POST", function(){
-    it("Create teacher", function(done){
-    request(url)
-      .post("/user")
-      .send(teacher)
+function lockUser(index) {
+  describe("PUT", function (){
+    it("Lock a user", function(done){
+      request(url)
+      .put("/user/" + index + "/swlock")
+      .auth("teste@ipt.pt","secret")
       .expect(200, done)
     });
   });
 }
 
-// PROJECTS --------------------------------------------------------------------
 /*
-  "name": "Teste",
-  "description":  "Something",
-  "course": "1"
+  Changes the password for a given user account
+
+  {
+    "passowrd":"teste"
+  }
 */
-function postProject(project){
+function changePassword(password) {
+  describe("PUT", function (){
+    it("Change the password of a user", function(done){
+      request(url)
+      .put("/user/chpassword")
+      .send(password)
+      .auth("teste@ipt.pt","secret")
+      .expect(200, done)
+    });
+  });
+}
+
+/*
+  Creates a teacher account
+
+  {
+    "name": "user2",
+    "external": "150",
+    "email": "user@ipt.pt",
+    "phone": "911231231",
+    "password": "secret"
+  }
+*/
+function createTeacher(teacher){
+  describe("POST", function(){
+    it("Create teacher", function(done){
+    request(url)
+      .post("/teacher")
+      .send(teacher)
+      .auth("teste@ipt.pt","secret")
+      .expect(200, done)
+    });
+  });
+}
+
+/*
+  Creates a project
+
+  {
+    "name": "Teste",
+    "description":  "Something",
+    "course": "1"
+  }
+*/
+function createProject(project){
   describe("POST", function (){
     it("Create Project", function(done){
       request(url)
@@ -116,6 +177,9 @@ function postProject(project){
   });
 };
 
+/*
+  Returns details for a project or all projects
+*/
 function getProject(index){
   var searchString = "/project";
   if (index != null) searchString = "/project/" + index;
@@ -128,12 +192,46 @@ function getProject(index){
       .end(function(err, res){
         if (err) return done(err);
         done();
+        console.log(res.body);
       });
     });
   });
 };
 
-// GROUPS ---------------------------------------------------------------------
+// not working
+function alterProject(details) {
+  describe("PUT", function (){
+    it("Change the details of a project", function(done){
+      request(url)
+      .put("/project")
+      .send(details)
+      .auth("teste@ipt.pt","secret")
+      .expect(200, done)
+    });
+  });
+}
+
+/*
+  Returns all user applications for a specific project
+*/
+
+function getProjectApplications(index) {
+  describe("GET", function (){
+    it("Return project applications", function(done){
+      request(url)
+      .get("/project/"+ index + "/applications")
+      .auth("teste@ipt.pt","secret")
+      .expect(200)
+      .end(function(err, res){
+        if (err) return done(err);
+        done();
+        console.log(res.body);
+      });
+    });
+  });
+}
+
+// GROUPS ----------------------------------------------------------------------
 function getGroup(index){
   var searchString = "/group";
   if (index != null) searchString = "/group/" + index;
@@ -146,12 +244,19 @@ function getGroup(index){
       .end(function(err, res){
         if (err) return done(err);
         done();
+        console.log(res.body);
       });
     });
   });
 };
 
-function postGroup(group){
+/*
+{
+  "desc":"isto e um grupo",
+  "password":"secret"
+}
+*/
+function createGroup(group){
   describe("POST",function() {
     it("Create a group", function (done) {
       request(url)
@@ -162,6 +267,53 @@ function postGroup(group){
     });
   });
 };
+
+/*
+{
+  "desc":"isto e um grupo",
+  "password":"secret"
+}
+*/
+function joinGroup(group) {
+  describe("POST",function() {
+    it("Join a group", function (done) {
+      request(url)
+      .post("/group/join")
+      .send(group)
+      .auth("gandabarcelos@ipt.pt","secret")
+      .expect(200, done)
+    });
+  });
+}
+
+function removeGroup(index) {
+  describe("DELETE",function() {
+    it("Delete a group", function (done) {
+      request(url)
+      .delete("/group/" + index)
+      .auth("teste@ipt.pt","secret")
+      .expect(200, done)
+    });
+  });
+}
+
+/*
+{
+  "desc":"isto e um grupo",
+  "password":"secret"
+}
+*/
+function updateGroup(details) {
+  describe("PUT", function (){
+    it("Update group details", function(done){
+      request(url)
+      .put("/group/2")
+      .send(details)
+      .auth("teste@ipt.pt","secret")
+      .expect(200, done)
+    });
+  });
+}
 
 // SCHOOLS --------------------------------------------------------------------
 function getSchools(){
@@ -174,6 +326,7 @@ function getSchools(){
         .end(function(err, res){
           if(err) return done(err);
           done();
+          console.log(res.body);
         });
     });
   });
@@ -181,26 +334,22 @@ function getSchools(){
 
 // COURSES --------------------------------------------------------------------
 function getCourse(index){
-  var searchString = "/course";
-  if (index != null) searchString = "/course/" + index;
   describe("GET", function (){
     it("Return courses", function(done){
       request(url)
-      .get(searchString)
+      .get("/course/" + index)
       .auth("teste@ipt.pt","secret")
       .expect(200)
       .end(function(err, res){
         if (err) return done(err);
         done();
+        console.log(res.body);
       });
     });
   });
 };
 
 // ATTRIBUTES ------------------------------------------------------------------
-/*
-  "name":"teste"
-*/
 function getAttribute(){
   describe("GET", function (){
     it("Return attributes", function(done){
@@ -211,12 +360,16 @@ function getAttribute(){
         .end(function(err, res){
           if(err) return done(err);
           done();
+          console.log(res.body);
         });
     });
   });
 };
 
-function postAttribute(attribute){
+/*
+  "name":"teste"
+*/
+function createAttribute(attribute){
   describe("POST",function() {
     it("Create a attribute", function (done) {
       request(url)
@@ -229,10 +382,6 @@ function postAttribute(attribute){
 };
 
 // APPLICATIONS -----------------------------------------------------------------------
-/*
-  "groupid":"1",
-  "projectid":"1"
-*/
 function getApplication(index) {
   var searchString = "/application";
   if (index != null) searchString = "/application/" + index;
@@ -245,12 +394,17 @@ function getApplication(index) {
         .end(function(err, res){
           if(err) return done(err);
           done();
+          console.log(res.body);
         });
     });
   });
 }
 
-function postApplication(application){
+/*
+  "groupid":"1",
+  "projectid":"1"
+*/
+function createApplication(application){
   describe("POST",function() {
     it("Create a project application", function (done) {
       request(url)
@@ -274,4 +428,21 @@ function acceptApplication(application) {
   });
 }
 
+function test404Routes() {
+  describe("POST",function() {
+    it("Should return 404 on unknown route", function (done) {
+      request(url)
+      .post("/testing404")
+      .auth("teste@ipt.pt", "secret")
+      .expect(404, done)
+    });
+  });
+}
+
 // TESTS -----------------------------------------------------------------------
+/*createProject({
+  "name": "Teste2",
+  "description":  "Something else",
+  "course": "1"
+})*/
+test404Routes();
