@@ -17,6 +17,7 @@ var groupuser = new (require('./tables/groupuser.js'))();
 var projectattribute = new (require('./tables/projectattribute.js'))();
 var projectteacher = new (require('./tables/projectteacher.js'))();
 var userattribute = new (require('./tables/userattribute.js'))();
+var activeUser = new (require('./procedures/activateUser.js'))();
 
 // Loads MySQL config file
 var config = ini.parse(fs.readFileSync('./.my.cnf', 'utf8'));
@@ -62,6 +63,9 @@ async function start() {
     await projectteacher.start(connection);
     // start userattribute table tests
     await userattribute.start(connection);
+
+    // start activeUser procedure test
+    await activeUser.start(connection);
 
     await connection.end();
   } catch (error) {
