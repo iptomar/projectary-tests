@@ -1,4 +1,4 @@
-var utils = new (require('./utils.js'))();
+var utils = new (require('./../utils.js'))();
 
 class Attribute {
 
@@ -41,7 +41,7 @@ class Attribute {
 
       // mysqltest
       try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/insertAttributes.sql`);
+        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/tables/insertAttributes.sql`);
       } catch (error) {
         throw new Error(error);
       }

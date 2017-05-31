@@ -1,4 +1,4 @@
-var utils = new (require('./utils.js'))();
+var utils = new (require('./../utils.js'))();
 
 class Application {
 
@@ -41,7 +41,7 @@ class Application {
 
       // mysqltest
       try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/insertApplications.sql`);
+        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/tables/insertApplications.sql`);
       } catch (error) {
         throw new Error(error);
       }

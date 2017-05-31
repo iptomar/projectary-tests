@@ -1,4 +1,4 @@
-var utils = new (require('./utils.js'))();
+var utils = new (require('./../utils.js'))();
 
 class Group {
 
@@ -41,7 +41,7 @@ class Group {
 
       // mysqltest
       try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/insertGroups.sql`);
+        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/tables/insertGroups.sql`);
       } catch (error) {
         throw new Error(error);
       }
