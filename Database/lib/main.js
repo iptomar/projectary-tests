@@ -4,19 +4,19 @@ var mysql = require('mysql');
 
 // Loads modules
 var database = new (require('./database.js'))();
-var userType = new (require('./type.js'))();
-var user = new (require('./user.js'))();
-var school = new (require('./school.js'))();
-var course = new (require('./course.js'))();
-var group = new (require('./group.js'))();
-var project = new (require('./project.js'))();
-var application = new (require('./application.js'))();
-var attribute = new (require('./attribute.js'))();
-var courseyear = new (require('./courseyear.js'))();
-var groupuser = new (require('./groupuser.js'))();
-var projectattribute = new (require('./projectattribute.js'))();
-var projectteacher = new (require('./projectteacher.js'))();
-var userattribute = new (require('./userattribute.js'))();
+var userType = new (require('./tables/type.js'))();
+var user = new (require('./tables/user.js'))();
+var school = new (require('./tables/school.js'))();
+var course = new (require('./tables/course.js'))();
+var group = new (require('./tables/group.js'))();
+var project = new (require('./tables/project.js'))();
+var application = new (require('./tables/application.js'))();
+var attribute = new (require('./tables/attribute.js'))();
+var courseyear = new (require('./tables/courseyear.js'))();
+var groupuser = new (require('./tables/groupuser.js'))();
+var projectattribute = new (require('./tables/projectattribute.js'))();
+var projectteacher = new (require('./tables/projectteacher.js'))();
+var userattribute = new (require('./tables/userattribute.js'))();
 
 // Loads MySQL config file
 var config = ini.parse(fs.readFileSync('./.my.cnf', 'utf8'));
