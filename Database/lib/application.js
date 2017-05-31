@@ -23,8 +23,8 @@ class Application {
    */
   async truncate() {
     await utils.cmd(`
-      mysql --defaults-file="./.my.cnf" -e "TRUNCATE projectary_tests.type;"
-      `, 'Truncated table type', 'Failed to truncate table type');
+      mysql --defaults-file="./.my.cnf" -e "TRUNCATE projectary_tests.application;"
+      `, 'Truncated table application', 'Failed to truncate table application');
   }
 
   /**

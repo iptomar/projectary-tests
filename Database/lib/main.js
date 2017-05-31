@@ -11,6 +11,12 @@ var course = new (require('./course.js'))();
 var group = new (require('./group.js'))();
 var project = new (require('./project.js'))();
 var application = new (require('./application.js'))();
+var attribute = new (require('./attribute.js'))();
+var courseyear = new (require('./courseyear.js'))();
+var groupuser = new (require('./groupuser.js'))();
+var projectattribute = new (require('./projectattribute.js'))();
+var projectteacher = new (require('./projectteacher.js'))();
+var userattribute = new (require('./userattribute.js'))();
 
 // Loads MySQL config file
 var config = ini.parse(fs.readFileSync('./.my.cnf', 'utf8'));
@@ -44,6 +50,18 @@ async function start() {
     await project.start(connection);
     // start application table tests
     await application.start(connection);
+     // start attribute table tests
+    await attribute.start(connection);
+    // start courseyear table tests
+    await courseyear.start(connection);
+    // start groupuser table tests
+    await groupuser.start(connection);
+    // start projectattribute table tests
+    await projectattribute.start(connection);
+    // start projectteacher  table tests
+    await projectteacher.start(connection);
+    // start userattribute table tests
+    await userattribute.start(connection);
 
     await connection.end();
   } catch (error) {
