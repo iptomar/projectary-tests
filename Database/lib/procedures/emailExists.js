@@ -34,14 +34,13 @@ class EmailExists {
       var emailStatus;
 
       // insert a user
-      // 
       try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/procedures/insertNotActiveUser.sql`);
+        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/procedures/insertUser.sql`);
       } catch (error) {
         throw new Error(error);
       }
 
-      // 
+      // calls procedure emailExists and checks if there is an user with the email 10001@ipt.pt
       await this.connection.query("CALL projectary_tests.emailExists('10001@ipt.pt', @output); SELECT @output as output;", 
       await function (error, results, fields) {
         //console.log(results[1][0]['output']);
