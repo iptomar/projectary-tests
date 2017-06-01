@@ -3,6 +3,7 @@ var request = require('./main.js').config.req;
 
 class Course {
   constructor() {}
+
 /*
   Returns a list containing details about a given course or all courses
 */
@@ -21,4 +22,5 @@ class Course {
     });
   };
 }
+
 module.exports = Course;

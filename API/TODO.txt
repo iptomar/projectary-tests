@@ -1,39 +1,64 @@
-  app.get('/user', auth, routes.user.list); 				done	works
-  app.put('/user', auth, routes.user.update); 				done	works
-  app.get('/user/pending', auth, routes.user.pending);			done	works
-  app.get('/user/:id', auth, routes.user.info); 			done	works
-  app.post('/user/:id/approve', auth, routes.user.approve); 		done	works
-  app.post('/user', routes.user.createStudent);				done	works
-  app.post('/teacher', auth, routes.user.createTeacher);		done	works
-  app.put('/user/chpassword', auth, routes.user.chPassword);		done	works
-  app.put('/user/:id/swlock', auth, routes.user.swLock);		done	works
+var routes = require('../routes/index'),
+  auth = require('./auth');
 
-  app.post('/attribute', auth, routes.attribute.create);		done	works
-  app.get('/attribute',auth, routes.attribute.list);			done	works
+module.exports = function(app) {
 
-  app.post('/project', auth, routes.project.create);			done	works
-  app.get('/project', auth, routes.project.list);			done	works
-  app.get('/project/:id', auth, routes.project.info);			done	works
-  app.put('/project/:id', auth, routes.project.update);			pending fix
-  app.get('/project/:id/applications', auth, routes.project.applInfo);	done	works
+  app.route('/user')
+    .get(auth, routes.user.list)                                                    done
+    .put(auth, routes.user.update)                                                  done
+    .post(routes.user.createStudent);                                               done
 
-  app.post('/group/create', auth, routes.group.create);			done	works
-  app.post('/group/join', auth, routes.group.join);			done	works
-  app.delete('/group/:id', auth, routes.group.remove);			done	works
-  app.get('/group', auth, routes.group.list);				done	works
-  app.get('/group/:id', auth, routes.group.info);			done	works
-  app.put('/group/:id', auth, routes.group.update);			pending fix
+  app.route('/attribute')
+    .post(auth, routes.attribute.create)                                            done
+    .get(auth, routes.attribute.list);                                              done
 
-  app.get('/application', auth, routes.application.list);		done	works
-  app.post('/application', auth, routes.application.create);		done	works
-  app.get('/application/:id', auth, routes.application.info);		done
-  app.post('/application/accept', auth, routes.application.accept);	done	works
+  app.route('/project')
+    .post(auth, routes.project.create)                                              done
+    .get(auth, routes.project.list);                                                done
 
-  app.get('/school', routes.school.list); 				done	works
-  app.get('/course/:id', routes.school.getCourse);			done	works
+  app.route('/project/:id')
+    .get(auth, routes.project.info)                                                 done
+    .put(auth, routes.project.update);                                              pending fix (parseInt(new Date().getFullYear())?)
 
-  app.post('/login', auth, routes.user.login);				done	works
+  app.route('/group/:id')
+    .get(auth, routes.group.info)                                                   done
+    .put(auth, routes.group.update)                                                 done
+    .delete(auth, routes.group.remove);                                             done
+
+  app.route('/application')
+    .get(auth, routes.project.toApprove)                                            done
+    .post(routes.application.create);                                               done
+
+  app.get('/user/pending', auth, routes.user.pending);                              done
+  app.get('/user/:id', auth, routes.user.info);                                     done
+
+  app.post('/photo', auth, routes.user.sendPhoto);                                  done   
+  app.get('/photo/:id', routes.user.getPhoto);                                      done
+
+  app.get('/user/:user/recover/:token', routes.user.recoverUserToken);              pending
+  app.post('/user/:user/recover', routes.user.recoverUser);                         pending
+
+  app.post('/user/:id/approve', auth, routes.user.approve);                         done
+  app.post('/teacher', auth, routes.user.createTeacher);                            done
+  app.put('/user/chpassword', auth, routes.user.chPassword);                        done
+  app.put('/user/:id/swlock', auth, routes.user.swLock);                            done
+
+  app.get('/project/:id/applications', auth, routes.project.applInfo);              done
+
+  app.get('/group', auth, routes.group.list);                                       done
+  app.post('/group/create', auth, routes.group.create);                             done
+  app.post('/group/join', auth, routes.group.join);                                 done
+
+  app.get('/application/:id', auth, routes.application.info);                       done
+  app.get('/application/nassigned/:state', auth, routes.application.nAssigned);     done
+  app.post('/application/accept', auth, routes.application.accept);                 done
+
+  app.get('/school', routes.school.list);                                           done
+  app.get('/course/:id', routes.school.getCourse);                                  done
+
+  app.post('/login', auth, routes.user.login);                                      done
 
   app.all('*', function(req, res) {
-    res.status(404).json({ 'result': 'nok', 'message': 'Route could not be found'});	done	works
+    res.status(404).json({ 'result': 'nok', 'message': 'Route could not be found' }); done
   });
+};
