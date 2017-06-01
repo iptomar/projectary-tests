@@ -1,0 +1,30 @@
+
+Procedures to do:
+
+activateUser				done		works
+addToGroup				not done
+deleteGroup				not done
+DeleteUserAttribute			not done
+descExists				not done
+editGroup				not done
+emailExists				done		works
+externalExists				not done
+insertNewApplication			not done
+InsertNewCourseYear			not done
+insertNewGroup				not done
+insertNewProject			not done
+insertNewType				not done
+insertNewUser				not done
+InsertUserAttribute			not done
+isAdmin					not done
+isInGroup				not done
+isInProject				not done
+isStudent				not done
+isTeacher				not done
+listApplications			not done
+listCouses				not done
+listGroupDetails			not done
+listGroups				not done
+listProjects				not done
+listSchools				not done
+UpdateUserAttribute			not done
