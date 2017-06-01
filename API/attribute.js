@@ -3,6 +3,7 @@ var request = require('./main.js').config.req;
 
 class Attribute {
   constructor() {}
+
 /*
   Returns a list with all attributes
 */
@@ -20,6 +21,7 @@ class Attribute {
       });
     });
   };
+
 /*
   Adds a attribute
   {
@@ -38,4 +40,5 @@ class Attribute {
     });
   };
 }
+
 module.exports = Attribute;

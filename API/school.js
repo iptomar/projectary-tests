@@ -3,6 +3,7 @@ var request = require('./main.js').config.req;
 
 class School {
   constructor() {}
+  
 /*
   Returns list containing school details
 */
