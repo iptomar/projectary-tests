@@ -1,30 +1,30 @@
-
 Procedures to do:
 
-activateUser				done		works
-addToGroup				not done
-deleteGroup				not done
-DeleteUserAttribute			not done
-descExists				not done
-editGroup				not done
-emailExists				done		works
-externalExists				not done
-insertNewApplication			not done
-InsertNewCourseYear			not done
-insertNewGroup				not done
-insertNewProject			not done
-insertNewType				not done
-insertNewUser				not done
-InsertUserAttribute			not done
-isAdmin					not done
-isInGroup				not done
-isInProject				not done
-isStudent				not done
-isTeacher				not done
-listApplications			not done
-listCouses				not done
-listGroupDetails			not done
-listGroups				not done
-listProjects				not done
-listSchools				not done
-UpdateUserAttribute			not done
+activateUser			    H        done           works
+addToGroup				    A        not done
+deleteGroup				    A        not done
+DeleteUserAttribute		    H        not done
+descExists				    H        not done
+editGroup				    A        not done
+emailExists				    H        done           works
+externalExists			    H        not done
+insertNewApplication	    A        not done
+insertNewCourse             H        not done
+InsertNewCourseYear		    H        not done
+insertNewGroup			    A        not done
+insertNewProject		    A        not done
+insertNewType			    H        not done
+insertNewUser			    A        not done
+InsertUserAttribute		    H        not done
+isAdmin					    H        not done
+isInGroup				    H        not done
+isInProject				    H        not done
+isStudent				    H        not done
+isTeacher				    A        not done
+listApplications		    A        not done
+listCouses				    A        not done
+listGroupDetails		    A        not done
+listGroups				    A        not done
+listProjects			    A        not done
+listSchools				    H        not done
+UpdateUserAttribute		    A        not done
