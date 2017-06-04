@@ -1,5 +1,6 @@
 # enable_warnings
 SET SQL_WARNINGS=1;
+SET NAMES 'utf8';
 
 # id, name, desc, schoolid
 # Insert 2 applications

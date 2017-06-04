@@ -1,5 +1,6 @@
 # enable_warnings
 SET SQL_WARNINGS=1;
+SET NAMES 'utf8';
 
 # id, desc, password (md5 of 123qwe)
 # Insert 3 groups

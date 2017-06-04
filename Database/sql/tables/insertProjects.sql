@@ -1,5 +1,6 @@
 # enable_warnings
 SET SQL_WARNINGS=1;
+SET NAMES 'utf8';
 
 # id, approvedin, year, courseid, name, description, userid, created
 # Insert 5 projects

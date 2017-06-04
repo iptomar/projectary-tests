@@ -1,5 +1,6 @@
 # enable_warnings
 SET SQL_WARNINGS=1;
+SET NAMES 'utf8';
 
 # groupid, userid, owner, grade, approvedin
 # Insert 5 groupuser
