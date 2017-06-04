@@ -3,14 +3,14 @@ var utils = new (require('./../utils.js'))();
 class DescExists {
 
   /**
-   * Truncate the group table and test the emailExists procedure
+   * Truncate the group table and test the descExists procedure
    */
   async start(connection) {
     this.connection = connection;
 
     try {
       await this.truncate();
-      await this.testEmailExists();
+      await this.testDescExists();
     } catch (error) {
       throw new Error(error.message);
     }
@@ -27,23 +27,23 @@ class DescExists {
   }
 
   /**
-   * 
+   * Insert a group and check if a description
+   * already exists
    */
-  async testEmailExists() {
+  async testDescExists() {
     try {
       var descStatus;
 
-      // insert a user
+      // insert a group
       try {
         await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/procedures/insertGroup.sql`);
       } catch (error) {
         throw new Error(error);
       }
 
-      // calls procedure emailExists and checks if there is an user with the email 10001@ipt.pt
+      // calls procedure descExists and checks if there's the a group description
       await this.connection.query("CALL projectary_tests.descExists('descrição', @output); SELECT @output as output;", 
       await function (error, results, fields) {
-        console.log(results[1][0]['output']);
         descStatus=results[1][0]['output'];
         if (descStatus == 1 ) {
           utils.log('success', 'descExists procedure called successfully');
