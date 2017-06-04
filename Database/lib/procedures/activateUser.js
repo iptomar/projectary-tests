@@ -27,7 +27,7 @@ class ActivateUser {
   }
 
   /**
-   * 
+   * insert a user, activate it and check if it was activated
    */
   async testActivateUser() {
     try {
