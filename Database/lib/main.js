@@ -12,16 +12,16 @@ var group = new (require('./tables/group.js'))();
 var project = new (require('./tables/project.js'))();
 var application = new (require('./tables/application.js'))();
 var attribute = new (require('./tables/attribute.js'))();
-var courseyear = new (require('./tables/courseyear.js'))();
-var groupuser = new (require('./tables/groupuser.js'))();
-var projectattribute = new (require('./tables/projectattribute.js'))();
-var projectteacher = new (require('./tables/projectteacher.js'))();
-var userattribute = new (require('./tables/userattribute.js'))();
+var courseYear = new (require('./tables/courseYear.js'))();
+var groupUser = new (require('./tables/groupUser.js'))();
+var projectAttribute = new (require('./tables/projectAttribute.js'))();
+var projectTeacher = new (require('./tables/projectTeacher.js'))();
+var userAttribute = new (require('./tables/userAttribute.js'))();
 var activeUser = new (require('./procedures/activateUser.js'))();
 //var addToGroup = new (require('./procedures/addToGroup.js'))();
 //var deleteGroup = new (require('./procedures/deleteGroup.js'))();
 //var DeleteUserAttribute = new (require('./procedures/DeleteUserAttribute.js'))();
-//var descExists = new (require('./procedures/descExists.js'))();
+var descExists = new (require('./procedures/descExists.js'))();
 //var editGroup = new (require('./procedures/editGroup.js'))();
 var emailExists = new (require('./procedures/emailExists.js'))();
 //var externalExists = new (require('./procedures/externalExists.js'))();
@@ -61,11 +61,21 @@ var connection = mysql.createConnection({
 
 async function start() {
   try {
-    // start database tests and their tables
+    /**
+     * start database tests and their tables
+     */
+    await console.log("\nGrabbing the database dump and test the integrity of it:");
     await database.start();
     
+    /**
+     * Connect to the database
+     */
     await connection.connect();
     
+    /**
+     * Testing the database tables
+     */
+    await console.log("\nTesting the database tables:");
     // start type of users table tests
     await userType.start(connection);
     // start user table tests
@@ -83,20 +93,26 @@ async function start() {
      // start attribute table tests
     await attribute.start(connection);
     // start courseyear table tests
-    await courseyear.start(connection);
+    await courseYear.start(connection);
     // start groupuser table tests
-    await groupuser.start(connection);
+    await groupUser.start(connection);
     // start projectattribute table tests
-    await projectattribute.start(connection);
-    // start projectteacher  table tests
-    await projectteacher.start(connection);
+    await projectAttribute.start(connection);
+    // start projectteacher table tests
+    await projectTeacher.start(connection);
     // start userattribute table tests
-    await userattribute.start(connection);
+    await userAttribute.start(connection);
 
+    /**
+     * Testing the database procedures
+     */
+    await console.log("\nTesting the database procedures:");
     // start activeUser procedure test
     await activeUser.start(connection);
     // start emailExists procedure test
     await emailExists.start(connection);
+    // start descExists procedure test
+    await descExists.start(connection);
 
     // start addToGroup procedure test
     //await addToGroup.start(connection);
@@ -106,9 +122,6 @@ async function start() {
 
     // start DeleteUserAttribute procedure test
     //await DeleteUserAttribute.start(connection);
-
-    // start descExists procedure test
-    //await descExists.start(connection);
 
     // start editGroup procedure test
     //await editGroup.start(connection);
