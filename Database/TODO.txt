@@ -4,7 +4,7 @@ activateUser                H        done           works
 addToGroup                  A        not done
 deleteGroup                 A        not done
 DeleteUserAttribute         H        not done
-descExists                  H        done           pending fix
+descExists                  H        done           works
 editGroup                   A        not done
 emailExists                 H        done           works
 externalExists              H        not done

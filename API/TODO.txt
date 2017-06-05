@@ -46,7 +46,7 @@ module.exports = function(app) {
   app.get('/project/:id/applications', auth, routes.project.applInfo);              done
 
   app.get('/group', auth, routes.group.list);                                       done
-  app.post('/group/create', auth, routes.group.create);                             done
+  app.post('/group/create', auth, routes.group.create);                             retest
   app.post('/group/join', auth, routes.group.join);                                 done
 
   app.get('/application/:id', auth, routes.application.info);                       done
