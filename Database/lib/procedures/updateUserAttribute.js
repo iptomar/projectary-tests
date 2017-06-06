@@ -2,7 +2,7 @@ var utils = new (require('./../utils.js'))();
 
 class UpdateUserAttribute {
 	/**
-   * Truncate the userattribute table and test the UpdateUserAttribute procedure
+   * Truncate the userattribute table and test the updateUserAttribute procedure
    */
    async start(connection) {
     this.connection = connection;
@@ -31,7 +31,7 @@ class UpdateUserAttribute {
 
       // insert a row in the table userattribute
       try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/procedures/UpdateUserAttribute.sql`);
+        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/procedures/updateUserAttribute.sql`);
       } catch (error) {
         throw new Error(error);
       }
@@ -43,7 +43,7 @@ class UpdateUserAttribute {
 
       // call the procedure 
       try {
-        await utils.execPromise(`mysql --defaults-file="./.my.cnf" -e "CALL projectary_tests.UpdateUserAttribute(1,1,'teste');"`);
+        await utils.execPromise(`mysql --defaults-file="./.my.cnf" -e "CALL projectary_tests.updateUserAttribute(1,1,'teste');"`);
       } catch (error) {
         throw new Error(error);
       }
@@ -51,15 +51,15 @@ class UpdateUserAttribute {
       // check if the procedured worked
       await this.connection.query('SELECT * FROM userattribute WHERE userid=1 AND attributeid=1;', await function (error, results, fields) {
         if (update == 'um' && results[0].value == 'teste') {
-          utils.log('success', 'UpdateUserAttribute procedure called successfully');
+          utils.log('success', 'updateUserAttribute procedure called successfully');
         } else {
 			console.log(update, results[0].value);
-			utils.log('fail', 'Failed to call the UpdateUserAttribute procedure');
+			utils.log('fail', 'Failed to call the updateUserAttribute procedure');
         }
       });
 
    } catch (error) {
-      utils.log('fail', 'Failed to test the UpdateUserAttribute procedure \n' + error);
+      utils.log('fail', 'Failed to test the updateUserAttribute procedure \n' + error);
       return;
     }
   }

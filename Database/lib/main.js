@@ -20,19 +20,19 @@ var userAttribute = new (require('./tables/userAttribute.js'))();
 var activeUser = new (require('./procedures/activateUser.js'))();
 //var addToGroup = new (require('./procedures/addToGroup.js'))();
 //var deleteGroup = new (require('./procedures/deleteGroup.js'))();
-//var DeleteUserAttribute = new (require('./procedures/DeleteUserAttribute.js'))();
+//var deleteUserAttribute = new (require('./procedures/deleteUserAttribute.js'))();
 var descExists = new (require('./procedures/descExists.js'))();
 //var editGroup = new (require('./procedures/editGroup.js'))();
 var emailExists = new (require('./procedures/emailExists.js'))();
 //var externalExists = new (require('./procedures/externalExists.js'))();
 //var insertNewApplication = new (require('./procedures/insertNewApplication.js'))();
 //var insertNewCourse = new (require('./procedures/insertNewCourse.js'))();
-//var InsertNewCourseYear = new (require('./procedures/InsertNewCourseYear.js'))();
+//var insertNewCourseYear = new (require('./procedures/insertNewCourseYear.js'))();
 //var insertNewGroup = new (require('./procedures/insertNewGroup.js'))();
 //var insertNewProject = new (require('./procedures/insertNewProject.js'))();
 //var insertNewType = new (require('./procedures/insertNewType.js'))();
 //var insertNewUser = new (require('./procedures/insertNewUser.js'))();
-//var InsertUserAttribute = new (require('./procedures/InsertUserAttribute.js'))();
+//var insertUserAttribute = new (require('./procedures/insertUserAttribute.js'))();
 //var isAdmin = new (require('./procedures/isAdmin.js'))();
 //var isInGroup = new (require('./procedures/isInGroup.js'))();
 //var isInProject = new (require('./procedures/isInProject.js'))();
@@ -44,7 +44,7 @@ var emailExists = new (require('./procedures/emailExists.js'))();
 //var listGroups = new (require('./procedures/listGroups.js'))();
 //var listProjects = new (require('./procedures/listProjects.js'))();
 //var listSchools = new (require('./procedures/listSchools.js'))();
-var UpdateUserAttribute = new (require('./procedures/UpdateUserAttribute.js'))();
+var updateUserAttribute = new (require('./procedures/updateUserAttribute.js'))();
 
 
 
@@ -120,8 +120,8 @@ async function start() {
     // start deleteGroup procedure test
     //await deleteGroup.start(connection);
 
-    // start DeleteUserAttribute procedure test
-    //await DeleteUserAttribute.start(connection);
+    // start deleteUserAttribute procedure test
+    //await deleteUserAttribute.start(connection);
 
     // start editGroup procedure test
     //await editGroup.start(connection);
@@ -135,8 +135,8 @@ async function start() {
     // start insertNewCourse procedure test
     //await insertNewCourse.start(connection);
 
-    // start InsertNewCourseYear procedure test
-    //await InsertNewCourseYear.start(connection);
+    // start insertNewCourseYear procedure test
+    //await insertNewCourseYear.start(connection);
 
     // start insertNewGroup procedure test
     //await insertNewGroup.start(connection);
@@ -150,8 +150,8 @@ async function start() {
     // start insertNewUser procedure test
     //await insertNewUser.start(connection);
 
-    // start InsertUserAttribute procedure test
-    //await InsertUserAttribute.start(connection);
+    // start insertUserAttribute procedure test
+    //await insertUserAttribute.start(connection);
 
     // start isAdmin procedure test
     //await isAdmin.start(connection);
@@ -186,8 +186,8 @@ async function start() {
     // start listSchools procedure test
     //await listSchools.start(connection);
 
-    // start UpdateUserAttribute procedure test
-    //await UpdateUserAttribute.start(connection);
+    // start updateUserAttribute procedure test
+    await updateUserAttribute.start(connection);
 
     await connection.end();
   } catch (error) {
