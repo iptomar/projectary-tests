@@ -44,7 +44,7 @@ var emailExists = new (require('./procedures/emailExists.js'))();
 //var listGroups = new (require('./procedures/listGroups.js'))();
 //var listProjects = new (require('./procedures/listProjects.js'))();
 //var listSchools = new (require('./procedures/listSchools.js'))();
-//var UpdateUserAttribute = new (require('./procedures/UpdateUserAttribute.js'))();
+var UpdateUserAttribute = new (require('./procedures/UpdateUserAttribute.js'))();
 
 
 
