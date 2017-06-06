@@ -27,4 +27,4 @@ listGroupDetails            A        not done
 listGroups                  A        not done
 listProjects                A        not done
 listSchools                 H        not done
-UpdateUserAttribute         A        not done
+UpdateUserAttribute         A        done           pending fix
