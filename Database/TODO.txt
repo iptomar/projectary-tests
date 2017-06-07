@@ -10,6 +10,7 @@ emailExists                 H        done           works
 externalExists              H        not done
 insertNewApplication        A        not done
 insertNewCourse             H        not done
+insertGrade                 A        not done
 InsertNewCourseYear         H        not done
 insertNewGroup              A        not done
 insertNewProject            A        not done
@@ -17,6 +18,7 @@ insertNewType               H        not done
 insertNewUser               A        not done
 insertUserAttribute         H        not done
 isAdmin                     H        not done
+isFinished                  H        not done
 isInGroup                   H        not done
 isInProject                 H        not done
 isStudent                   H        not done
