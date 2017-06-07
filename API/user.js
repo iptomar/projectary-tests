@@ -16,7 +16,7 @@ class User {
       it("Auth", function (done) {
         request(url)
           .post("/login")
-          .auth("teste@ipt.pt", "secret")
+          .auth("teste3@ipt.pt", "secret")
           .send(user)
           .expect(200, done)
       });
@@ -202,12 +202,12 @@ class User {
     });
   };
 
-  recoverUser(){
+  recoverUser() {
     describe("GET", function () {
       it("Return user token", function (done) {
         request(url)
           .get("/user/recover")
-          .auth("majac@lucyu.com", "secret")
+          .auth("teste@ipt.pt", "secret")
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);
@@ -216,6 +216,22 @@ class User {
       });
     });
   }
+
+  recoverUserToken() {
+    describe("GET", function () {
+      it("Return user token", function (done) {
+        request(url)
+          .post("/user/recover")
+          .auth("teste@ipt.pt", "secret")
+          .expect(200)
+          .end(function (err, res) {
+            if (err) return done(err);
+            done();
+          });
+      });
+    });
+  }
+
 }
 
 module.exports = User;
