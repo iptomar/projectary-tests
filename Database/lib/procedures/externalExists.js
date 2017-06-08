@@ -43,7 +43,7 @@ class ExternalExists {
       // calls procedure externalExists and checks if there is an user with the external_id = 10001
       await this.connection.query("CALL projectary_tests.externalExists('10001', @output); SELECT @output as output;", 
       await function (error, results, fields) {
-        console.log(results[1][0]['output']);
+        //console.log(results[1][0]['output']);
         externalStatus=results[1][0]['output'];
         if (externalStatus == 1 ) {
           utils.log('success', 'externalExists procedure called successfully');
