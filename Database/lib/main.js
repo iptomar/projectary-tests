@@ -38,7 +38,7 @@ var emailExists = new (require('./procedures/emailExists.js'))();
 //var isInGroup = new (require('./procedures/isInGroup.js'))();
 //var isInProject = new (require('./procedures/isInProject.js'))();
 //var isStudent = new (require('./procedures/isStudent.js'))();
-//var isTeacher = new (require('./procedures/isTeacher.js'))();
+var isTeacher = new (require('./procedures/isTeacher.js'))();
 //var listApplications = new (require('./procedures/listApplications.js'))();
 //var listCouses = new (require('./procedures/listCouses.js'))();
 //var listGroupDetails = new (require('./procedures/listGroupDetails.js'))();
@@ -170,7 +170,7 @@ async function start() {
     //await isStudent.start(connection);
 
     // start isTeacher procedure test
-    //await isTeacher.start(connection);
+    await isTeacher.start(connection);
 
     // start listApplications procedure test
     //await listApplications.start(connection);

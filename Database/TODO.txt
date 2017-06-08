@@ -22,7 +22,7 @@ isFinished                  H        not done
 isInGroup                   H        not done
 isInProject                 H        not done
 isStudent                   H        not done
-isTeacher                   A        not done
+isTeacher                   A        done           works
 listApplications            A        not done
 listCouses                  A        not done
 listGroupDetails            A        not done
