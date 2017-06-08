@@ -27,7 +27,7 @@ var emailExists = new (require('./procedures/emailExists.js'))();
 var externalExists = new (require('./procedures/externalExists.js'))();
 //var insertGrade = new (require('./procedures/insertGrade.js'))();
 //var insertNewApplication = new (require('./procedures/insertNewApplication.js'))();
-//var insertNewCourse = new (require('./procedures/insertNewCourse.js'))();
+var insertNewCourse = new (require('./procedures/insertNewCourse.js'))();
 //var insertNewCourseYear = new (require('./procedures/insertNewCourseYear.js'))();
 //var insertNewGroup = new (require('./procedures/insertNewGroup.js'))();
 //var insertNewProject = new (require('./procedures/insertNewProject.js'))();
@@ -137,7 +137,7 @@ async function start() {
     //await insertNewApplication.start(connection);
 
     // start insertNewCourse procedure test
-    //await insertNewCourse.start(connection);
+    await insertNewCourse.start(connection);
 
     // start insertNewCourseYear procedure test
     //await insertNewCourseYear.start(connection);

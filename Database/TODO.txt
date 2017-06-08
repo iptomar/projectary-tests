@@ -7,9 +7,9 @@ DeleteUserAttribute         H        not done
 descExists                  H        done           works
 editGroup                   A        not done
 emailExists                 H        done           works
-externalExists              H        not done
+externalExists              H        done           works
 insertNewApplication        A        not done
-insertNewCourse             H        not done
+insertNewCourse             H        done           works
 insertGrade                 A        not done
 InsertNewCourseYear         H        not done
 insertNewGroup              A        not done
@@ -22,7 +22,7 @@ isFinished                  H        not done
 isInGroup                   H        not done
 isInProject                 H        not done
 isStudent                   H        not done
-isTeacher                   A        done           works
+isTeacher                   A        not done
 listApplications            A        not done
 listCouses                  A        not done
 listGroupDetails            A        not done
