@@ -43,7 +43,7 @@ var isTeacher = new (require('./procedures/isTeacher.js'))();
 //var listCouses = new (require('./procedures/listCouses.js'))();
 //var listGroupDetails = new (require('./procedures/listGroupDetails.js'))();
 //var listGroups = new (require('./procedures/listGroups.js'))();
-//var listProjects = new (require('./procedures/listProjects.js'))();
+var listProjects = new (require('./procedures/listProjects.js'))();
 //var listSchools = new (require('./procedures/listSchools.js'))();
 var updateUserAttribute = new (require('./procedures/updateUserAttribute.js'))();
 
@@ -185,7 +185,7 @@ async function start() {
     //await listGroups.start(connection);
 
     // start listProjects procedure test
-    //await listProjects.start(connection);
+    await listProjects.start(connection);
 
     // start listSchools procedure test
     //await listSchools.start(connection);
