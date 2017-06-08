@@ -28,7 +28,7 @@ var externalExists = new (require('./procedures/externalExists.js'))();
 //var insertGrade = new (require('./procedures/insertGrade.js'))();
 //var insertNewApplication = new (require('./procedures/insertNewApplication.js'))();
 var insertNewCourse = new (require('./procedures/insertNewCourse.js'))();
-//var insertNewCourseYear = new (require('./procedures/insertNewCourseYear.js'))();
+var insertNewCourseYear = new (require('./procedures/insertNewCourseYear.js'))();
 //var insertNewGroup = new (require('./procedures/insertNewGroup.js'))();
 //var insertNewProject = new (require('./procedures/insertNewProject.js'))();
 //var insertNewType = new (require('./procedures/insertNewType.js'))();
@@ -140,7 +140,7 @@ async function start() {
     await insertNewCourse.start(connection);
 
     // start insertNewCourseYear procedure test
-    //await insertNewCourseYear.start(connection);
+    await insertNewCourseYear.start(connection);
 
     // start insertNewGroup procedure test
     //await insertNewGroup.start(connection);
