@@ -23,7 +23,7 @@ isInGroup                   H        done           works
 isInProject                 H        done           works
 isStudent                   H        done           works
 isTeacher                   A        done           works
-listApplications            A        done           pending fix
+listApplications            A        done           works
 listCourses                 A        done           works
 listGroupDetails            A        done           works
 listGroups                  A        done           works
