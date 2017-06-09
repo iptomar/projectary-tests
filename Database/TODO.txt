@@ -24,7 +24,7 @@ isInProject                 H        not done
 isStudent                   H        not done
 isTeacher                   A        done           pending fix
 listApplications            A        not done
-listCouses                  A        not done
+listCourses                 A        not done
 listGroupDetails            A        done           works
 listGroups                  A        done           works
 listProjects                A        done           works
