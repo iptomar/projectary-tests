@@ -25,7 +25,7 @@ isStudent                   H        not done
 isTeacher                   A        done           pending fix
 listApplications            A        not done
 listCouses                  A        not done
-listGroupDetails            A        not done
+listGroupDetails            A        done           works
 listGroups                  A        done           works
 listProjects                A        done           works
 listSchools                 H        not done
