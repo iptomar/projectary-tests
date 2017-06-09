@@ -11,7 +11,7 @@ externalExists              H        done           works
 insertNewApplication        A        not done
 insertNewCourse             H        done           works
 insertGrade                 A        not done
-InsertNewCourseYear         H        done           works
+insertNewCourseYear         H        done           works
 insertNewGroup              A        not done
 insertNewProject            A        not done
 insertNewType               H        done           works
@@ -23,8 +23,8 @@ isInGroup                   H        not done
 isInProject                 H        not done
 isStudent                   H        not done
 isTeacher                   A        done           pending fix
-listApplications            A        not done
-listCourses                 A        not done
+listApplications            A        done           pending fix
+listCourses                 A        done           works
 listGroupDetails            A        done           works
 listGroups                  A        done           works
 listProjects                A        done           works
