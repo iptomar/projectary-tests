@@ -67,9 +67,8 @@ class listApplications {
       		}
 
       		// check if the procedured worked
-      		await this.connection.query("CALL projectary_tests.listApplications(3,1,0)",
+      		await this.connection.query("CALL projectary_tests.listApplications(3,2,0)",
       		await function (error, results, fields) {
-      			console.log(results);
         		if (results[0].length > 0) {
           			utils.log('success', 'listApplications procedure called successfully');
         		} else {
