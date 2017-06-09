@@ -19,10 +19,10 @@ insertNewUser               A        not done
 insertUserAttribute         H        done           works
 isAdmin                     H        done           works
 isFinished                  H        not done
-isInGroup                   H        not done
-isInProject                 H        not done
-isStudent                   H        not done
-isTeacher                   A        done           pending fix
+isInGroup                   H        done           works
+isInProject                 H        done           works
+isStudent                   H        done           works
+isTeacher                   A        done           works
 listApplications            A        done           pending fix
 listCourses                 A        done           works
 listGroupDetails            A        done           works
