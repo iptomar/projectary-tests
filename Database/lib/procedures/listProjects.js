@@ -42,7 +42,7 @@ class listProjects {
 
 			// check if the procedured worked #2
 			await this.connection.query('CALL listProjects(2,2017,1);', await function (error, results, fields) {
-				if (listNull.length > 0 && results.length > 0) {
+				if (listNull[0].length > 0 && results[0].length > 0) {
 					utils.log('success', 'listProjects procedure called successfully');
 				}
 				else {
