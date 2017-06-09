@@ -40,8 +40,8 @@ var isInProject = new (require('./procedures/isInProject.js'))();
 //var isStudent = new (require('./procedures/isStudent.js'))();
 var isTeacher = new (require('./procedures/isTeacher.js'))();
 //var listApplications = new (require('./procedures/listApplications.js'))();
-//var listCouses = new (require('./procedures/listCouses.js'))();
-//var listGroupDetails = new (require('./procedures/listGroupDetails.js'))();
+var listCourses = new (require('./procedures/listCourses.js'))();
+var listGroupDetails = new (require('./procedures/listGroupDetails.js'))();
 var listGroups = new (require('./procedures/listGroups.js'))();
 var listProjects = new (require('./procedures/listProjects.js'))();
 //var listSchools = new (require('./procedures/listSchools.js'))();
@@ -176,10 +176,10 @@ async function start() {
     //await listApplications.start(connection);
 
     // start listCouses procedure test
-    //await listCouses.start(connection);
+    await listCourses.start(connection);
 
     // start listGroupDetails procedure test
-    //await listGroupDetails.start(connection);
+    await listGroupDetails.start(connection);
 
     // start listGroups procedure test
     await listGroups.start(connection);
