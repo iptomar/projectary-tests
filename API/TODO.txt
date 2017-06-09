@@ -45,6 +45,10 @@ module.exports = function(app) {
 
   app.get('/project/:id/applications', auth, routes.project.applInfo);              done
 
+    app.get('/project/finished/:groupid', auth, routes.project.isFinished);         untested
+  app.post('/project/finished/', auth, routes.project.attrGrade);                   untested
+  app.post('/project/finished/:id',auth, routes.project.forceFinish);               untested
+
   app.get('/group', auth, routes.group.list);                                       done
   app.post('/group/create', auth, routes.group.create);                             retest
   app.post('/group/join', auth, routes.group.join);                                 done

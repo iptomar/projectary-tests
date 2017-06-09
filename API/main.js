@@ -71,6 +71,11 @@ var alterProjectData = {
   "course": "1"
 }
 
+var projectGrade = {
+  "groupid":"1",
+  "grade":"18"
+}
+
 // Tests -------------------------------------------------------
 
 user.authUser(authData);
@@ -85,15 +90,17 @@ project.createProject(projectData);
 project.getProject(1);
 project.alterProject(2, alterProjectData);
 project.getProjectApplications(1);
-
+ 
 attribute.createAttribute(attributeData);
 attribute.getAttribute();
 
 school.getSchool();
 course.getCourse(1);
 
-
 test404Routes(apiUrl);
+
+project.projectAddGrade(projectGrade);
+
 /*
   Returns a 404 in case of unknown route
 */

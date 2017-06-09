@@ -82,6 +82,48 @@ class Project {
       });
     });
   }
+
+  /*
+    Untested --------------------------------------------------
+   */
+  isFinished(userid, groupid) {
+    describe("GET", function () {
+      it("Check if project is finished", function (done) {
+        request(url)
+          .get("/project/finished/" + userid + "/" + groupid)
+          .auth("ninja@caldas.ipt", "123qwe")
+          .expect(200)
+          .end(function (err, res) {
+            if (err) return done(err);
+            done();
+          });
+      });
+    });
+  }
+
+  addGrade(userid, studentid, projData) {
+    describe("POST", function () {
+      it("Create Project", function (done) {
+        request(url)
+          .post("/project/finished" + userid + "/" + studentid)
+          .auth("ninja@caldas.ipt", "123qwe")
+          .send(projData)
+          .expect(200, done)
+      });
+    });
+  };
+
+  finishedProject(index) {
+    describe("POST", function () {
+      it("Finish a project", function (done) {
+        request(url)
+          .post("/project/finished/" + index)
+          .auth("ninja@caldas.ipt", "123qwe")
+          .expect(200, done)
+      });
+    });
+  };
+
 }
 
 module.exports = Project;
