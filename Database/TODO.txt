@@ -27,6 +27,6 @@ listApplications            A        not done
 listCouses                  A        not done
 listGroupDetails            A        not done
 listGroups                  A        not done
-listProjects                A        done           pending fix
+listProjects                A        done           works
 listSchools                 H        not done
 updateUserAttribute         A        done           works
