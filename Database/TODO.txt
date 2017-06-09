@@ -28,5 +28,5 @@ listCourses                 A        done           works
 listGroupDetails            A        done           works
 listGroups                  A        done           works
 listProjects                A        done           works
-listSchools                 H        not done
+listSchools                 H        done           works
 updateUserAttribute         A        done           works
