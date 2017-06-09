@@ -3,7 +3,7 @@ Procedures to do:
 activateUser                H        done           works
 addToGroup                  A        not done
 deleteGroup                 A        not done
-DeleteUserAttribute         H        not done
+DeleteUserAttribute         H        done           pending fix
 descExists                  H        done           works
 editGroup                   A        not done
 emailExists                 H        done           works
@@ -18,7 +18,7 @@ insertNewType               H        done           works
 insertNewUser               A        not done
 insertUserAttribute         H        done           works
 isAdmin                     H        done           works
-isFinished                  H        not done
+finishProject               H        not done
 isInGroup                   H        done           works
 isInProject                 H        done           works
 isStudent                   H        done           works
@@ -28,5 +28,5 @@ listCourses                 A        done           works
 listGroupDetails            A        done           works
 listGroups                  A        done           works
 listProjects                A        done           works
-listSchools                 H        not done
+listSchools                 H        done           works
 updateUserAttribute         A        done           works

@@ -39,12 +39,12 @@ var isInGroup = new (require('./procedures/isInGroup.js'))();
 var isInProject = new (require('./procedures/isInProject.js'))();
 var isStudent = new (require('./procedures/isStudent.js'))();
 var isTeacher = new (require('./procedures/isTeacher.js'))();
-var listApplications = new (require('./procedures/listApplications.js'))();
+//var listApplications = new (require('./procedures/listApplications.js'))();
 var listCourses = new (require('./procedures/listCourses.js'))();
 var listGroupDetails = new (require('./procedures/listGroupDetails.js'))();
 var listGroups = new (require('./procedures/listGroups.js'))();
 var listProjects = new (require('./procedures/listProjects.js'))();
-//var listSchools = new (require('./procedures/listSchools.js'))();
+var listSchools = new (require('./procedures/listSchools.js'))();
 var updateUserAttribute = new (require('./procedures/updateUserAttribute.js'))();
 
 
@@ -173,7 +173,7 @@ async function start() {
     await isTeacher.start(connection);
 
     // start listApplications procedure test
-    await listApplications.start(connection);
+    //await listApplications.start(connection);
 
     // start listCouses procedure test
     await listCourses.start(connection);
@@ -188,7 +188,7 @@ async function start() {
     await listProjects.start(connection);
 
     // start listSchools procedure test
-    //await listSchools.start(connection);
+    await listSchools.start(connection);
 
     // start updateUserAttribute procedure test
     await updateUserAttribute.start(connection);
