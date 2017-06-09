@@ -12,7 +12,7 @@ class School {
       it("Return schools", function(done){
         request(url)
           .get("/school")
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200)
           .end(function(err, res){
             if(err) return done(err);

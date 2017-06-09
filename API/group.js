@@ -14,7 +14,7 @@ class Group {
       it("Return groups", function (done) {
         request(url)
           .get(searchString)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);
@@ -38,7 +38,7 @@ class Group {
         request(url)
           .post("/group/create")
           .send(group)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200, done)
       });
     });
@@ -57,7 +57,7 @@ class Group {
         request(url)
           .post("/group/join")
           .send(group)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200, done)
       });
     });
@@ -71,7 +71,7 @@ class Group {
       it("Delete a group", function (done) {
         request(url)
           .delete("/group/" + index)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200, done)
       });
     });
@@ -90,7 +90,7 @@ class Group {
         request(url)
           .put("/group/" + index)
           .send(details)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200, done)
       });
     });

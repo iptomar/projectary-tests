@@ -14,7 +14,7 @@ class Application {
       it("Return project applications", function (done) {
         request(url)
           .get(searchString)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);
@@ -37,7 +37,7 @@ class Application {
       it("Create a project application", function (done) {
         request(url)
           .post("/application")
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .send(application)
           .expect(200, done)
       });
@@ -52,7 +52,7 @@ class Application {
       it("Accept a project application", function (done) {
         request(url)
           .post("/application/accept")
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .send(application)
           .expect(200, done)
       });
@@ -69,7 +69,7 @@ class Application {
       it("Return applications depending on state", function (done) {
         request(url)
           .get("/application/nassigned/" + state)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);

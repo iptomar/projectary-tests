@@ -16,7 +16,7 @@ class User {
       it("Auth", function (done) {
         request(url)
           .post("/login")
-          .auth("teste3@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .send(user)
           .expect(200, done)
       });
@@ -55,7 +55,7 @@ class User {
       it("Return users", function (done) {
         request(url)
           .get(searchString)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);
@@ -73,7 +73,7 @@ class User {
       it("Approve user", function (done) {
         request(url)
           .post("/user/" + index + "/approve")
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200, done)
       });
     });
@@ -87,7 +87,7 @@ class User {
       it("Return pending users", function (done) {
         request(url)
           .get("/user/pending")
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);
@@ -105,7 +105,7 @@ class User {
       it("Lock a user", function (done) {
         request(url)
           .put("/user/" + index + "/swlock")
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200, done)
       });
     });
@@ -123,7 +123,7 @@ class User {
         request(url)
           .put("/user/chpassword")
           .send(password)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ze@cabra.ipt", "123qwe")
           .expect(200, done)
       });
     });
@@ -145,7 +145,7 @@ class User {
         request(url)
           .post("/teacher")
           .send(teacher)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200, done)
       });
     });
@@ -166,7 +166,7 @@ class User {
         request(url)
           .put("/user")
           .send(details)
-          .auth("teste@ipt.pt", "secret")
+          .auth("cebola@mole.ipt", "123qwe")
           .expect(200, done)
       });
     });
@@ -179,7 +179,7 @@ class User {
       it("Send user photo", function (done) {
         request(url)
           .post("/photo")
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .attach("userPhoto", path)
           .expect(200, done)
       });
@@ -192,7 +192,7 @@ class User {
       it("Return user photo", function (done) {
         request(url)
           .get("/photo/" + index)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);
@@ -202,17 +202,15 @@ class User {
     });
   };
 
+// not working, api returns a 200 but will not receive an email
+// smtp badly configured?
   recoverUser() {
     describe("GET", function () {
       it("Return user token", function (done) {
         request(url)
-          .get("/user/recover")
-          .auth("teste@ipt.pt", "secret")
-          .expect(200)
-          .end(function (err, res) {
-            if (err) return done(err);
-            done();
-          });
+          .post("/user/recover")
+          .auth("ninja@caldas.ipt", "123qwe")
+          .expect(200, done)
       });
     });
   }
@@ -221,8 +219,8 @@ class User {
     describe("GET", function () {
       it("Return user token", function (done) {
         request(url)
-          .post("/user/recover")
-          .auth("teste@ipt.pt", "secret")
+          .get("/user" + '/ninja@caldas.ipt' + "/recover")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);

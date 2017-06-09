@@ -12,7 +12,7 @@ class Attribute {
       it("Return attributes", function(done){
         request(url)
           .get("/attribute")
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200)
           .end(function(err, res){
             if(err) return done(err);
@@ -33,7 +33,7 @@ class Attribute {
       it("Create a attribute", function (done) {
         request(url)
         .post("/attribute")
-        .auth("teste@ipt.pt", "secret")
+        .auth("ninja@caldas.ipt", "123qwe")
         .send(attribute)
         .expect(200, done)
       });
