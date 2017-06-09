@@ -37,7 +37,7 @@ var insertUserAttribute = new (require('./procedures/insertUserAttribute.js'))()
 var isAdmin = new (require('./procedures/isAdmin.js'))();
 var isInGroup = new (require('./procedures/isInGroup.js'))();
 var isInProject = new (require('./procedures/isInProject.js'))();
-//var isStudent = new (require('./procedures/isStudent.js'))();
+var isStudent = new (require('./procedures/isStudent.js'))();
 var isTeacher = new (require('./procedures/isTeacher.js'))();
 var listApplications = new (require('./procedures/listApplications.js'))();
 var listCourses = new (require('./procedures/listCourses.js'))();
@@ -167,7 +167,7 @@ async function start() {
     await isInProject.start(connection);
 
     // start isStudent procedure test
-    //await isStudent.start(connection);
+    await isStudent.start(connection);
 
     // start isTeacher procedure test
     await isTeacher.start(connection);
