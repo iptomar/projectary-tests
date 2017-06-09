@@ -35,8 +35,8 @@ var insertNewType = new (require('./procedures/insertNewType.js'))();
 //var insertNewUser = new (require('./procedures/insertNewUser.js'))();
 var insertUserAttribute = new (require('./procedures/insertUserAttribute.js'))();
 var isAdmin = new (require('./procedures/isAdmin.js'))();
-//var isInGroup = new (require('./procedures/isInGroup.js'))();
-//var isInProject = new (require('./procedures/isInProject.js'))();
+var isInGroup = new (require('./procedures/isInGroup.js'))();
+var isInProject = new (require('./procedures/isInProject.js'))();
 //var isStudent = new (require('./procedures/isStudent.js'))();
 var isTeacher = new (require('./procedures/isTeacher.js'))();
 //var listApplications = new (require('./procedures/listApplications.js'))();
@@ -161,10 +161,10 @@ async function start() {
     await isAdmin.start(connection);
 
     // start isInGroup procedure test
-    //await isInGroup.start(connection);
+    await isInGroup.start(connection);
 
     // start isInProject procedure test
-    //await isInProject.start(connection);
+    await isInProject.start(connection);
 
     // start isStudent procedure test
     //await isStudent.start(connection);
