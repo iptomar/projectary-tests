@@ -31,7 +31,7 @@ var insertNewCourse = new (require('./procedures/insertNewCourse.js'))();
 var insertNewCourseYear = new (require('./procedures/insertNewCourseYear.js'))();
 //var insertNewGroup = new (require('./procedures/insertNewGroup.js'))();
 //var insertNewProject = new (require('./procedures/insertNewProject.js'))();
-//var insertNewType = new (require('./procedures/insertNewType.js'))();
+var insertNewType = new (require('./procedures/insertNewType.js'))();
 //var insertNewUser = new (require('./procedures/insertNewUser.js'))();
 //var insertUserAttribute = new (require('./procedures/insertUserAttribute.js'))();
 //var isAdmin = new (require('./procedures/isAdmin.js'))();
@@ -149,7 +149,7 @@ async function start() {
     //await insertNewProject.start(connection);
 
     // start insertNewType procedure test
-    //await insertNewType.start(connection);
+    await insertNewType.start(connection);
 
     // start insertNewUser procedure test
     //await insertNewUser.start(connection);

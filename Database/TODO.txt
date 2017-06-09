@@ -14,7 +14,7 @@ insertGrade                 A        not done
 InsertNewCourseYear         H        done           works
 insertNewGroup              A        not done
 insertNewProject            A        not done
-insertNewType               H        not done
+insertNewType               H        done           works
 insertNewUser               A        not done
 insertUserAttribute         H        not done
 isAdmin                     H        not done
@@ -22,11 +22,11 @@ isFinished                  H        not done
 isInGroup                   H        not done
 isInProject                 H        not done
 isStudent                   H        not done
-isTeacher                   A        not done
+isTeacher                   A        done           pending fix
 listApplications            A        not done
 listCouses                  A        not done
 listGroupDetails            A        not done
 listGroups                  A        not done
-listProjects                A        not done
+listProjects                A        done           pending fix
 listSchools                 H        not done
 updateUserAttribute         A        done           works
