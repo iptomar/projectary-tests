@@ -204,6 +204,7 @@ class User {
 
 // not working, api returns a 200 but will not receive an email
 // smtp badly configured?
+// not thorougly testes
   recoverUser() {
     describe("GET", function () {
       it("Return user token", function (done) {
