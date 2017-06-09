@@ -1,4 +1,6 @@
 var request = require('supertest');
+var apiUrl = "http://localhost:8080";
+
 exports.config = {
   url: "http://localhost:8080",
   req: request
@@ -14,29 +16,20 @@ var user = new (require('./user.js'))();
 
 // Testing data ---------------------------------------
 
-var userData = {
-  "name": "userTest",
-  "external": "1",
-  "type": "1",
-  "email": "teste@ipt.pt",
-  "phone": "911234567",
-  "password": "secret"
-};
-
 var teacherData = {
   "name": "teacherTest",
-  "external": "2",
+  "external": "1",
   "type": "2",
-  "email": "teste2@ipt.pt",
+  "email": "teste1@ipt.pt",
   "phone": "911234568",
   "password": "secret"
 };
 
 var studentData = {
   "name": "studentTest",
-  "external": "3",
-  "type": "3",
-  "email": "teste3@ipt.pt",
+  "external": "2",
+  "type": "1",
+  "email": "teste2@ipt.pt",
   "phone": "911234569",
   "password": "secret"
 };
@@ -56,12 +49,51 @@ var projectData = {
   "course": "1"
 }
 
-// Tests -------------------------------------------------------
-user.createUser(userData);
-user.createTeacher(teacherData);
-user.approveUser(9);
-user.authUser();
+var authData = {
+  "username": "ninja@caldas.ipt",
+  "password": "123qwe"
+}
 
+var passwordData = {
+  "password": "123qwer"
+}
+
+var alterUserData = {
+  "name": "newName",
+  "email": "newmail@ipt.pt",
+  "phonenumber": "911111111",
+  "password": "pass"
+}
+
+var alterProjectData = {
+  "name": "newProjectName",
+  "description": "newDescription",
+  "course": "1"
+}
+
+// Tests -------------------------------------------------------
+
+user.authUser(authData);
+user.getUser(1);
+user.alterUser(alterUserData);
+user.changePassword();
+user.getPendingUser();
+user.getUserPhoto();
+user.lockUser(2);
+
+project.createProject(projectData);
+project.getProject(1);
+project.alterProject(2, alterProjectData);
+project.getProjectApplications(1);
+
+attribute.createAttribute(attributeData);
+attribute.getAttribute();
+
+school.getSchool();
+course.getCourse(1);
+
+
+test404Routes(apiUrl);
 /*
   Returns a 404 in case of unknown route
 */
@@ -70,7 +102,7 @@ function test404Routes(url) {
     it("Should return 404 on unknown route", function (done) {
       request(url)
         .post("/unknownRoute")
-        .auth("teste@ipt.pt", "secret")
+        .auth("ninja@caldas.ipt", "123qwe")
         .expect(404, done)
     });
   });

@@ -17,7 +17,7 @@ class Project {
       it("Create Project", function (done) {
         request(url)
           .post("/project")
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .send(project)
           .expect(200, done)
       });
@@ -34,7 +34,7 @@ class Project {
       it("Return projects", function (done) {
         request(url)
           .get(searchString)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);
@@ -59,7 +59,7 @@ class Project {
         request(url)
           .put("/project/" + id)
           .send(details)
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200, done)
       });
     });
@@ -73,7 +73,7 @@ class Project {
       it("Return project applications", function (done) {
         request(url)
           .get("/project/" + index + "/applications")
-          .auth("teste@ipt.pt", "secret")
+          .auth("ninja@caldas.ipt", "123qwe")
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);
