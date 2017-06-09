@@ -47,7 +47,7 @@ class listGroups {
       		}
 
       		// check if the procedured worked
-      		await this.connection.query("CALL projectary_tests.listGroups(1)",
+      		await this.connection.query("CALL projectary_tests.listGroups(3)",
       		await function (error, results, fields) {
         		if (results[0].length > 0) {
           			utils.log('success', 'listGroups procedure called successfully');
