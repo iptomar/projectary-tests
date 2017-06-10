@@ -34,7 +34,7 @@ class insertNewUser {
       var typeStatus;
 
       // calls procedure insertNewUser and inserts a new courseyear
-      await this.connection.query("CALL projectary_tests.insertNewUser('teste', 'default_photo.png', '10001', 1, '10001@ipt.pt', '46f94c8de14fb36680850768ff1b7f2a');"); 
+      await this.connection.query("CALL projectary_tests.insertNewUser('teste', 'default_photo.png', '10001', 1, '10001@ipt.pt','999999999', '46f94c8de14fb36680850768ff1b7f2a');"); 
 
       await this.connection.query("(SELECT EXISTS(SELECT * FROM user WHERE `name` LIKE 'teste') as output)",      
       await function (error, results, fields) {
