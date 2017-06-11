@@ -15,7 +15,7 @@ insertNewCourseYear         H        done           works
 insertNewGroup              A        not done
 insertNewProject            A        done           works
 insertNewType               H        done           works
-insertNewUser               A        done           pending fixes
+insertNewUser               A        done           works
 insertUserAttribute         H        done           works
 isAdmin                     H        done           works
 isFinished                  H        not done
