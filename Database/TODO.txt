@@ -18,7 +18,7 @@ insertNewType               H        done           works
 insertNewUser               A        done           works
 insertUserAttribute         H        done           works
 isAdmin                     H        done           works
-isFinished                  H        not done
+finishProject               H        done           works
 isInGroup                   H        done           works
 isInProject                 H        done           works
 isStudent                   H        done           works
