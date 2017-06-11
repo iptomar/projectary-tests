@@ -48,7 +48,7 @@ class insertNewProject {
 
       await this.connection.query("(SELECT EXISTS(SELECT * FROM project WHERE `name` LIKE 'teste') as output)",      
       await function (error, results, fields) {
-      	console.log(results[0]['output']);
+      	//console.log(results[0]['output']);
         typeStatus=results[0]['output'];
         if (typeStatus == 1 ) {
           utils.log('success', 'insertNewProject procedure called successfully');

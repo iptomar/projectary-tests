@@ -38,7 +38,7 @@ class insertNewUser {
 
       await this.connection.query("(SELECT EXISTS(SELECT * FROM user WHERE `name` LIKE 'teste') as output)",      
       await function (error, results, fields) {
-        console.log(results);
+        //console.log(results);
         typeStatus=results[0]['output'];
         if (typeStatus == 1 ) {
           utils.log('success', 'insertNewUser procedure called successfully');
