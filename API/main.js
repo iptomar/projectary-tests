@@ -78,7 +78,7 @@ var projectGrade = {
 
 // Tests -------------------------------------------------------
 
-user.authUser(authData);
+/*user.authUser(authData);
 user.getUser(1);
 user.alterUser(alterUserData);
 user.changePassword();
@@ -99,7 +99,9 @@ course.getCourse(1);
 
 test404Routes(apiUrl);
 
-project.projectAddGrade(projectGrade);
+project.projectAddGrade(projectGrade);*/
+
+//group.joinGroup({"desc":"pogamar","password":"1234"});
 
 /*
   Returns a 404 in case of unknown route

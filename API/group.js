@@ -19,7 +19,6 @@ class Group {
           .end(function (err, res) {
             if (err) return done(err);
             done();
-            console.log(res.body);
           });
       });
     });
