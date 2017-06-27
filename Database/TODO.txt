@@ -1,4 +1,4 @@
-Procedures to do:
+Procedures to do:        Done by            Status
 
 activateUser                H        done           works
 addToGroup                  A        not done
@@ -27,6 +27,9 @@ listApplications            A        done           works
 listCourses                 A        done           works
 listGroupDetails            A        done           works
 listGroups                  A        done           works
+listGroupsApplications               not done       
 listProjects                A        done           works
 listSchools                 H        done           works
+newID                                not done
+queryToProc                          not done
 updateUserAttribute         A        done           works
