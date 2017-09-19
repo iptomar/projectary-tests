@@ -1,7 +1,8 @@
 var ini = require('ini');
 var fs = require('fs');
 var mysql = require('mysql');
-
+var batch = 1;
+if (process.argv[1]!=null && parseInt(process.argv[2])>0) batch = parseInt(process.argv[2]);
 // Loads modules
 var database = new (require('./database.js'))();
 var userType = new (require('./tables/type.js'))();
@@ -77,9 +78,9 @@ async function start() {
     /**
      * Testing the database tables
      */
-    await console.log("\nTesting the database tables:");
+    await console.log('\nTesting the database tables injecting ' + batch + ' rows on each:');
     // start type of users table tests
-    await userType.start(connection);
+    await userType.start(connection, batch);
     // start user table tests
     //await user.start(connection);
     // start school table tests
