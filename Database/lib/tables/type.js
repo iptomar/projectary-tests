@@ -32,31 +32,21 @@ class Type {
    * the number of rows before and after the insertion of types.
    */
   async insertTypes() {
-    try {
-      var rowsCount;
-
-      await this.connection.query('SELECT * FROM projectary_tests.type;', await function (error, results, fields) {
-        rowsCount = results.length;
-      });
-
-      // mysqltest
       try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/tables/insertTypes.sql`);
-      } catch (error) {
-        throw new Error(error);
-      }
+		var numrows = 10;
+		var sql = "INSERT INTO type VALUES ?";
+		var values = [];
+		for(var i = 0; i < numrows; i++)
+			values[i]=[i+1,'test'+(i+1)];
 
-      await this.connection.query('SELECT * FROM projectary_tests.type;', await function (error, results, fields) {
-        // check if the rows before and after insertion
-        // are the same, including the number of rows added
-        if (rowsCount + 2 == results.length) {
-          utils.log('success', 'Inserted 2 types successfully');
-        } else {
-          utils.log('fail', 'The number of rows before and after the insertion do not match');
-        }
-      });
+		var startbench = process.hrtime();
+		await this.connection.query(sql, [values], await function(err, saved, fields) {
+			var endbench = process.hrtime(startbench);
+			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
+			else utils.log('success', 'Inserted ' + saved.affectedRows + ' types successfully in '+ endbench[0]+":" + endbench[1] + 'ms');
+		});
     } catch (error) {
-      utils.log('fail', 'Failed to insert in types table \n' + error);
+      utils.log('fail', 'Failed to insert types \n' + error);
       return;
     }
   }
