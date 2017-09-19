@@ -81,9 +81,9 @@ async function start() {
     // start type of users table tests
     await userType.start(connection);
     // start user table tests
-    await user.start(connection);
+    //await user.start(connection);
     // start school table tests
-    await school.start(connection);
+ /*   await school.start(connection);
     // start course table tests
     await course.start(connection);
     // start group table tests
@@ -108,7 +108,7 @@ async function start() {
     /**
      * Testing the database procedures
      */
-    await console.log("\nTesting the database procedures:");
+   /* await console.log("\nTesting the database procedures:");
     // start activeUser procedure test
     await activeUser.start(connection);
     // start emailExists procedure test
@@ -196,7 +196,7 @@ async function start() {
 
     // start updateUserAttribute procedure test
     await updateUserAttribute.start(connection);
-
+*/
     await connection.end();
   } catch (error) {
     await connection.end();
