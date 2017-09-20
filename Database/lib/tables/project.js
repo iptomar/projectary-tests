@@ -5,9 +5,13 @@ class Project {
   /**
    * Truncate the project table and test insertions
    */
-  async start(connection) {
+  async start(connection, logfile, batch) {
     this.connection = connection;
-
+	//batch of operations do test
+	this.batch = batch;
+	//Log file
+	this.logfile = logfile;
+	
     try {
       await this.truncate();
       await this.insertProjects();
@@ -28,33 +32,24 @@ class Project {
   }
 
   /**
-   * Insert 5 projects and check if they're inserted by counting
-   * the number of rows before and after the insertion of project.
+   * Insert n projects and check if they're inserted by checking affectedRows
    */
   async insertProjects() {
     try {
-      var rowsCount;
-
-      await this.connection.query('SELECT * FROM projectary_tests.project;', await function (error, results, fields) {
-        rowsCount = results.length;
-      });
-
-      // mysqltest
-      try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/tables/insertProjects.sql`);
-      } catch (error) {
-        throw new Error(error);
-      }
-
-      await this.connection.query('SELECT * FROM projectary_tests.project;', await function (error, results, fields) {
-        // check if the rows before and after insertion
-        // are the same, including the number of rows added
-        if (rowsCount + 5 == results.length) {
-          utils.log('success', 'Inserted 5 projects successfully');
-        } else {
-          utils.log('fail', 'The number of rows before and after the insertion do not match');
-        }
-      });
+		var f = this.logfile;
+		var sql = "INSERT INTO project VALUES ?";
+		//generating values to insert
+		var values = [];
+		for(var i = 0; i < this.batch; i++)
+			values[i]=[i+1,'2017-01-02 00:00:01',2017,i,'project'+(i+1),'project'+(i+1),i+1,'2017-01-02 00:00:05','2017-01-02 00:00:05',1];
+		var startbench = process.hrtime();
+		await this.connection.query(sql, [values], await function(err, saved) {
+			var endbench = process.hrtime(startbench);
+			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
+			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `project` in ' + utils.parseHrTime(endbench);			
+					utils.log('success', msg); utils.writeLog(f,msg); 
+			}		
+		});    
     } catch (error) {
       utils.log('fail', 'Failed to insert in projects table \n' + error);
       return;

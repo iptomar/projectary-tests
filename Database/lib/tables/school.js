@@ -5,9 +5,13 @@ class School {
   /**
    * Truncate the school table and test insertions
    */
-  async start(connection) {
+  async start(connection, logfile, batch) {
     this.connection = connection;
-
+	//batch of operations do test
+	this.batch = batch;
+	//Log file
+	this.logfile = logfile;
+	
     try {
       await this.truncate();
       await this.insertSchools();
@@ -28,33 +32,26 @@ class School {
   }
 
   /**
-   * Insert 3 schools and check if they're inserted by counting
-   * the number of rows before and after the insertion of schools.
+   * Insert n schools and check if they're inserted by checking affectedRows
    */
   async insertSchools() {
     try {
-      var rowsCount;
-
-      await this.connection.query('SELECT * FROM projectary_tests.school;', await function (error, results, fields) {
-        rowsCount = results.length;
-      });
-
-      // mysqltest
-      try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/tables/insertSchools.sql`);
-      } catch (error) {
-        throw new Error(error);
-      }
-
-      await this.connection.query('SELECT * FROM projectary_tests.school;', await function (error, results, fields) {
-        if (rowsCount + 3 == results.length) {
-          utils.log('success', 'Inserted 3 schools successfully');
-        } else {
-          utils.log('fail', 'The number of rows before and after the insertion do not match');
-        }
-      });
+		var f = this.logfile;
+		var sql = "INSERT INTO school VALUES ?";
+		//generating values to insert
+		var values = [];
+		for(var i = 0; i < this.batch; i++)
+			values[i]=[i+1,'school'+(i+1)];
+		var startbench = process.hrtime();
+		await this.connection.query(sql, [values], await function(err, saved) {
+			var endbench = process.hrtime(startbench);
+			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
+			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `schools` in ' + utils.parseHrTime(endbench);			
+					utils.log('success', msg); utils.writeLog(f,msg); 
+			}		
+		});    
     } catch (error) {
-      utils.log('fail', 'Failed to insert schools \n' + error);
+      utils.log('fail', 'Failed to insert `schools` \n' + error);
       return;
     }
   }

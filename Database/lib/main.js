@@ -3,9 +3,11 @@ var fs = require('fs');
 var mysql = require('mysql');
 var utils = new (require('./utils.js'))();
 //default batch size
-var batch = 1;
+var batch = 2;
+var script="";
 //if valid arguments are provided accpept them as desired batch size
-if (process.argv[1]!=null && parseInt(process.argv[2])>0) batch = parseInt(process.argv[2]);
+if (process.argv[2]!=null && parseInt(process.argv[2])>0) batch = parseInt(process.argv[2]);
+if (process.argv[3]!=null) script = process.argv[3];
 //log file
 var logfile = "results.log"
 // Loads modules
@@ -55,6 +57,16 @@ var connection = mysql.createConnection({
   multipleStatements: true // Run queries with multiple statements
 });
 
+//tests all or designated table
+async function testTables(tablesScripts) {
+	for (var i=0;i<tablesScripts.length; i++) {
+		var name = tablesScripts[i].split('/').pop();
+		if (script=="" || script=="tables" || script==name.split('/').pop().substring(0,name.indexOf('.'))){
+		var test = new (require("./tables/"+name))();	
+		await test.start(connection, logfile, batch);}
+	}
+}
+
 async function start() {
   try {
     /**
@@ -71,16 +83,11 @@ async function start() {
     /**
      * Testing the database tables
      */
-    await console.log('\nTesting the database tables injecting ' + batch + ' rows on each:');
-	//dev area
-	
+    await console.log('\nTable testing using ' + batch + ' rows:');
+	//dev area	
 	var tablesScripts = [];
 	await utils.getScripts("./lib/tables/",".js",tablesScripts);
-	for (var i=0;i<tablesScripts.length; i++) {
-		var test = new (require("./tables/"+tablesScripts[i].split('/').pop()))();	
-		await test.start(connection, logfile, batch);
-	}
-	
+	await testTables(tablesScripts);
 	//end of dev area
 	
     /**
