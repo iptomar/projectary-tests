@@ -33,3 +33,10 @@ listSchools                 H        done           works
 newID                                not done
 queryToProc                          not done
 updateUserAttribute         A        done           works
+
+add cli option for number of insertions 		done
+add results logging for later processing		done
+create variables based on available scripts to test	done
+add cli option to choose type of tests tables/procedures 
+add cli option to get list of tests from text file
+redo test verification					done
