@@ -5,9 +5,13 @@ class Attribute {
   /**
    * Truncate the attribute table and test insertions
    */
-  async start(connection) {
+  async start(connection, logfile, batch) {
     this.connection = connection;
-
+	//batch of operations do test
+	this.batch = batch;
+	//Log file
+	this.logfile = logfile;
+	
     try {
       await this.truncate();
       await this.insertAttributes();
@@ -28,33 +32,26 @@ class Attribute {
   }
 
   /**
-   * Insert 5 attributes and check if they're inserted by counting
-   * the number of rows before and after the insertion of attributes.
+   * Inserts n attributes and check if they're inserted by checking affected rows.
    */
   async insertAttributes() {
     try {
-      var rowsCount;
-
-      await this.connection.query('SELECT * FROM projectary_tests.attribute;', await function (error, results, fields) {
-        rowsCount = results.length;
-      });
-
-      // mysqltest
-      try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/tables/insertAttributes.sql`);
-      } catch (error) {
-        throw new Error(error);
-      }
-
-      await this.connection.query('SELECT * FROM projectary_tests.attribute;', await function (error, results, fields) {
-        if (rowsCount + 5 == results.length) {
-          utils.log('success', 'Inserted 5 attributes successfully');
-        } else {
-          utils.log('fail', 'The number of rows before and after the insertion do not match');
-        }
-      });
-    } catch (error) {
-      utils.log('fail', 'Failed to insert attributes \n' + error);
+		var f = this.logfile;
+		var sql = "INSERT INTO attribute VALUES ?";
+		//generating values to insert
+		var values = [];
+		for(var i = 0; i < this.batch; i++)
+			values[i]=[i+1, "attribute" + (i+1),'2017-01-03 00:00:01'];
+		var startbench = process.hrtime();
+		await this.connection.query(sql, [values], await function(err, saved) {
+			var endbench = process.hrtime(startbench);
+			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
+			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `attribute´ in ' + utils.parseHrTime(endbench);			
+					utils.log('success', msg); utils.writeLog(f,msg); 
+			}		
+		});    
+	} catch (error) {
+      utils.log('fail', 'Failed to insert `Attributes´ \n' + error);
       return;
     }
   }

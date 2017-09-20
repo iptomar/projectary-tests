@@ -5,9 +5,13 @@ class Course {
   /**
    * Truncate the course table and test insertions
    */
-  async start(connection) {
+  async start(connection, logfile, batch) {
     this.connection = connection;
-
+	//batch of operations do test
+	this.batch = batch;
+	//Log file
+	this.logfile = logfile;
+	
     try {
       await this.truncate();
       await this.insertCourses();
@@ -28,33 +32,26 @@ class Course {
   }
 
   /**
-   * Insert 5 courses and check if they're inserted by counting
-   * the number of rows before and after the insertion of courses.
+   * Insert n courses and check if they're inserted by checking affected rows.
    */
   async insertCourses() {
     try {
-      var rowsCount;
-
-      await this.connection.query('SELECT * FROM projectary_tests.course;', await function (error, results, fields) {
-        rowsCount = results.length;
-      });
-
-      // mysqltest
-      try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/tables/insertCourses.sql`);
-      } catch (error) {
-        throw new Error(error);
-      }
-
-      await this.connection.query('SELECT * FROM projectary_tests.course;', await function (error, results, fields) {
-        if (rowsCount + 5 == results.length) {
-          utils.log('success', 'Inserted 5 courses successfully');
-        } else {
-          utils.log('fail', 'The number of rows before and after the insertion do not match');
-        }
-      });
-    } catch (error) {
-      utils.log('fail', 'Failed to insert courses \n' + error);
+		var f = this.logfile;
+		var sql = "INSERT INTO course VALUES ?";
+		//generating values to insert
+		var values = [];
+		for(var i = 0; i < this.batch; i++)
+			values[i]=[i+1, "course" + (i+1),1];
+		var startbench = process.hrtime();
+		await this.connection.query(sql, [values], await function(err, saved) {
+			var endbench = process.hrtime(startbench);
+			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
+			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `Course´ in ' + utils.parseHrTime(endbench);			
+					utils.log('success', msg); utils.writeLog(f,msg); 
+			}		
+		});        
+	} catch (error) {
+      utils.log('fail', 'Failed to insert `Courses´ \n' + error);
       return;
     }
   }

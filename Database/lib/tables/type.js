@@ -32,8 +32,7 @@ class Type {
   }
 
   /**
-   * Insert n types and check if they're inserted by counting
-   * the number of rows before and after the insertion of types.
+   * Insert n types and check if they're inserted by checking affectedRows
    */
   async insertTypes() {
       try {
@@ -47,12 +46,12 @@ class Type {
 		await this.connection.query(sql, [values], await function(err, saved) {
 			var endbench = process.hrtime(startbench);
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
-			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows in table `Types` in ' + utils.parseHrTime(endbench);			
+			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `type` in ' + utils.parseHrTime(endbench);			
 					utils.log('success', msg); utils.writeLog(f,msg); 
 			}		
 		});
     } catch (error) {
-      utils.log('fail', 'Failed to insert types \n' + error);
+      utils.log('fail', 'Failed to insert `Types´ \n' + error);
       return;
     }
   }

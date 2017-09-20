@@ -5,9 +5,13 @@ class Application {
   /**
    * Truncate the application table and test insertions
    */
-  async start(connection) {
+  async start(connection, logfile, batch) {
     this.connection = connection;
-
+	//batch of operations do test
+	this.batch = batch;
+	//Log file
+	this.logfile = logfile;
+	
     try {
       await this.truncate();
       await this.insertApplications();
@@ -28,35 +32,27 @@ class Application {
   }
 
   /**
-   * Insert 2 applications and check if they're inserted by counting
+   * Insert n applications and check if they're inserted by counting
    * the number of rows before and after the insertion of applications.
    */
   async insertApplications() {
     try {
-      var rowsCount;
-
-      await this.connection.query('SELECT * FROM projectary_tests.application;', await function (error, results, fields) {
-        rowsCount = results.length;
-      });
-
-      // mysqltest
-      try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/tables/insertApplications.sql`);
-      } catch (error) {
-        throw new Error(error);
-      }
-
-      await this.connection.query('SELECT * FROM projectary_tests.application;', await function (error, results, fields) {
-        // check if the rows before and after insertion
-        // are the same, including the number of rows added
-        if (rowsCount + 2 == results.length) {
-          utils.log('success', 'Inserted 2 applications successfully');
-        } else {
-          utils.log('fail', 'The number of rows before and after the insertion do not match');
-        }
-      });
+		var f = this.logfile;
+		var sql = "INSERT INTO application VALUES ?";
+		//generating values to insert
+		var values = [];
+		for(var i = 0; i < this.batch; i++)
+			values[i]=[i+1,i+1,'2017-01-03 00:00:01','2017-01-03 00:00:01'];
+		var startbench = process.hrtime();
+		await this.connection.query(sql, [values], await function(err, saved) {
+			var endbench = process.hrtime(startbench);
+			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
+			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `application´ in ' + utils.parseHrTime(endbench);			
+					utils.log('success', msg); utils.writeLog(f,msg); 
+			}		
+		});
     } catch (error) {
-      utils.log('fail', 'Failed to insert in applications table \n' + error);
+      utils.log('fail', 'Failed to insert in `Applications´ table \n' + error);
       return;
     }
   }
