@@ -64,6 +64,29 @@ class Utils {
 	}
 
 	
+	//appends new line 'data' to 'logfile'. Creates if does not exist
+	writeLog(logfile, data) {
+		var fs = require('fs');
+		var today = new Date();
+		var yyyy = today.getFullYear();
+		var mo= today.getMonth()+1; 
+		var dd = today.getDate();
+		var hh = today.getHours();
+		var mm = today.getMinutes();
+		var ss = today.getSeconds();
+		if(dd<10) {	dd='0'+dd; } 
+		if(mm<10) {	mm='0'+mm; } 
+		if(mo<10) {	mo='0'+mo; } 
+		if(hh<10) {	hh='0'+hh; } 
+		if(ss<10) {	ss='0'+ss; }
+		var timestamp = yyyy + "-" + mo + "-" + dd + " " + hh + ":" + mm + ":" + ss;   	
+		fs.appendFile(logfile, timestamp + " - " + data+"\r\n", function (err) {
+			if (err) throw err;
+			console.log("Logged");
+		});
+	}
+
+	
   /**
    * Turn the child_process.exec() into a promise to be used on async/await
    */
