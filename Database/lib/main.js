@@ -6,10 +6,12 @@ var utils = new (require('./utils.js'))();
 var batch = 1;
 //if valid arguments are provided accpept them as desired batch size
 if (process.argv[1]!=null && parseInt(process.argv[2])>0) batch = parseInt(process.argv[2]);
+//log file
+var logfile = "results.log"
 // Loads modules
 var database = new (require('./database.js'))();
 
-var activeUser = new (require('./procedures/activateUser.js'))();
+/*var activeUser = new (require('./procedures/activateUser.js'))();
 //var addToGroup = new (require('./procedures/addToGroup.js'))();
 //var deleteGroup = new (require('./procedures/deleteGroup.js'))();
 //var deleteUserAttribute = new (require('./procedures/deleteUserAttribute.js'))();
@@ -39,7 +41,7 @@ var listGroups = new (require('./procedures/listGroups.js'))();
 var listProjects = new (require('./procedures/listProjects.js'))();
 var listSchools = new (require('./procedures/listSchools.js'))();
 var updateUserAttribute = new (require('./procedures/updateUserAttribute.js'))();
-
+*/
 
 
 // Loads MySQL config file
@@ -76,7 +78,7 @@ async function start() {
 	await utils.getScripts("./lib/tables/",".js",tablesScripts);
 	for (var i=0;i<tablesScripts.length; i++) {
 		var test = new (require("./tables/"+tablesScripts[i].split('/').pop()))();	
-		await test.start(connection);
+		await test.start(connection, logfile, batch);
 	}
 	
 	//end of dev area
@@ -88,12 +90,12 @@ async function start() {
 
 	//dev area
 	
-	var proceduresScripts = [];
+	/*var proceduresScripts = [];
 	await utils.getScripts("./lib/procedures/",".js",proceduresScripts);
 	for (var i=0;i<proceduresScripts.length; i++) {
 		var test = new (require("./procedures/"+proceduresScripts[i].split('/').pop()))();	
 		await test.start(connection);
-	}
+	*/
 	
 
     await connection.end();
