@@ -1,5 +1,7 @@
 var exec = require('child_process').exec;
 var chalk = require('chalk');
+var path = require("path");
+
 
 class Utils {
 
@@ -25,16 +27,56 @@ class Utils {
     return pass;
   }
 
+	
+	//Parses process.hrtime to HH:MM:SS.nano notation
 	parseHrTime(hrtime) {
-	var sec_num = parseInt(hrtime[0], 10); // don't forget the second param
-    var hours   = Math.floor(sec_num / 3600);
-    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-    var seconds = sec_num - (hours * 3600) - (minutes * 60);
-    if (hours   < 10) {hours   = "0"+hours;}
-    if (minutes < 10) {minutes = "0"+minutes;}
-    if (seconds < 10) {seconds = "0"+seconds;}
-    return hours+':'+minutes+':'+seconds+'.'+hrtime[1];
-}
+		var sec_num = parseInt(hrtime[0], 10); // don't forget the second param
+		var hours   = Math.floor(sec_num / 3600);
+		var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+		var seconds = sec_num - (hours * 3600) - (minutes * 60);
+		if (hours   < 10) {hours   = "0"+hours;}
+		if (minutes < 10) {minutes = "0"+minutes;}
+		if (seconds < 10) {seconds = "0"+seconds;}
+		return hours+':'+minutes+':'+seconds+'.'+hrtime[1];
+	}
+	
+	//async returns on an array 'fnames' all the files within a given path 'p' with the extension 'ext' 
+	getScripts(p,ext,fnames){
+	var fs = require('fs');
+	var fsRead = Promise.defer();
+	fs.readdir(p, function (err, files) {
+
+		if (err) {
+			throw err;
+		}
+
+		files.map(function (file) {
+			return path.join(p, file);
+		}).filter(function (file) {
+			return fs.statSync(file).isFile();
+		}).forEach(function (file) {
+			if(path.extname(file) === ext)
+			fnames.push(file);
+			fsRead.resolve();
+		});
+		});
+		return fsRead.promise;
+	}
+
+	//sync returns on an array 'fnames' all the files within a given path 'p' with the extension 'ext' 
+	getScriptsSync(p,ext,fnames){
+	var fs = require('fs');
+	var files = fs.readdirSync(p);
+		files.map(function (file) {
+			return path.join(p, file);
+		}).filter(function (file) {
+			return fs.statSync(file).isFile();
+		}).forEach(function (file) {
+			if(path.extname(file) === ext)
+			fnames.push(file);
+		});
+	}
+	
   /**
    * Turn the child_process.exec() into a promise to be used on async/await
    */
