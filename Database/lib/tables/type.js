@@ -5,11 +5,13 @@ class Type {
   /**
    * Truncate the type table and test insertions
    */
-  async start(connection, batch) {
+  async start(connection, logfile, batch) {
     this.connection = connection;
 	//batch of operations do test
 	this.batch = batch;
-
+	//Log file
+	this.logfile = logfile;
+	
     try {
       await this.truncate();
       await this.insertTypes();
@@ -35,16 +37,19 @@ class Type {
    */
   async insertTypes() {
       try {
+		var f = this.logfile;
 		var sql = "INSERT INTO type VALUES ?";
+		//generating values to insert
 		var values = [];
 		for(var i = 0; i < this.batch; i++)
 			values[i]=[i+1,'test'+(i+1)];
-
 		var startbench = process.hrtime();
 		await this.connection.query(sql, [values], await function(err, saved) {
 			var endbench = process.hrtime(startbench);
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
-			else utils.log('success', 'Inserted ' + saved.affectedRows + ' rows in table `Types` in ' + utils.parseHrTime(endbench));
+			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows in table `Types` in ' + utils.parseHrTime(endbench);			
+					utils.log('success', msg); utils.writeLog(f,msg); 
+			}		
 		});
     } catch (error) {
       utils.log('fail', 'Failed to insert types \n' + error);
