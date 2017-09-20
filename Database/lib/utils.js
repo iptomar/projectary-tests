@@ -38,7 +38,8 @@ class Utils {
 		if (hours   < 10) {hours   = "0"+hours;}
 		if (minutes < 10) {minutes = "0"+minutes;}
 		if (seconds < 10) {seconds = "0"+seconds;}
-		return hours+':'+minutes+':'+seconds+'.'+hrtime[1];
+		var nano = hrtime[1] + "";
+		return hours+':'+minutes+':'+seconds+'.'+ ("000000000" + nano).substring(nano.length);
 	}
 	
 	//async returns on an array 'fnames' all the files within a given path 'p' with the extension 'ext' 
