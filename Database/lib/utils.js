@@ -5,6 +5,7 @@ var path = require("path");
 
 class Utils {
 
+	
   /**
    * Used to decide if user is a student or a teacher(1-2)
    */
@@ -80,9 +81,8 @@ class Utils {
 		if(hh<10) {	hh='0'+hh; } 
 		if(ss<10) {	ss='0'+ss; }
 		var timestamp = yyyy + "-" + mo + "-" + dd + " " + hh + ":" + mm + ":" + ss;   	
-		fs.appendFile(logfile, timestamp + " - " + data+"\r\n", function (err) {
+		fs.appendFile(logfile+"", timestamp + " - " + data + "\r\n", function (err) {
 			if (err) throw err;
-			console.log("Logged");
 		});
 	}
 
@@ -128,7 +128,6 @@ class Utils {
     var successLabel = chalk.green.bold('\SUCCESS ');
     var failedLabel = chalk.red.bold('FAIL ');
     var warningLabel = chalk.yellow.bold('WARNING ');
-
     switch (status) {
       case 'success':
         console.log(successLabel + msg);
