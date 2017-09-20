@@ -63,19 +63,6 @@ class Utils {
 		return fsRead.promise;
 	}
 
-	//sync returns on an array 'fnames' all the files within a given path 'p' with the extension 'ext' 
-	getScriptsSync(p,ext,fnames){
-	var fs = require('fs');
-	var files = fs.readdirSync(p);
-		files.map(function (file) {
-			return path.join(p, file);
-		}).filter(function (file) {
-			return fs.statSync(file).isFile();
-		}).forEach(function (file) {
-			if(path.extname(file) === ext)
-			fnames.push(file);
-		});
-	}
 	
   /**
    * Turn the child_process.exec() into a promise to be used on async/await
