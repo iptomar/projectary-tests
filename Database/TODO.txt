@@ -34,9 +34,14 @@ newID                                not done
 queryToProc                          not done
 updateUserAttribute         A        done           works
 
-add cli option for number of insertions 		done
-add results logging for later processing		done
-create variables based on available scripts to test	done
-add cli option to choose type of tests tables/procedures 
-add cli option to get list of tests from text file
-redo test verification					done
+Added cli option for number of insertions 		              
+Added results logging for later processing		              
+Dynamically created variables based on available scripts to test	      
+Added cli option to choose type of tests tables/procedures  
+Added cli option to get list of available tests             
+Reengineered all tests and main node for scaling and massication				                                
+Made tests sequential for proper benchmarking             
+Added @utils parser from process.hrtime to HH:MM:SS.nano notation
+Added @utils async function that returns on an array all the files within a given path with matching extension 
+Added @utils async function that manages log file. Creates if don't exists and appends new results line with timestamp.
+Added @utils function that makes multiple delays and is able to write any given string on every iteration
