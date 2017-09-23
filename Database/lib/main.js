@@ -2,17 +2,18 @@ var ini = require('ini');
 var fs = require('fs');
 var mysql = require('mysql');
 var utils = new (require('./utils.js'))();
+var parseArgs = require('minimist');
+const params = parseArgs(process.argv);
 //default batch size
 var batch = 2;
-var script="";
-//if valid arguments are provided accpept them as desired batch size
-if (process.argv[2]!=null && parseInt(process.argv[2])>0) batch = parseInt(process.argv[2]);
-if (process.argv[3]!=null) script = process.argv[3];
+var options="";
+var scripts="";
+//tables scripts array
+var tablesScripts = [];
 //log file
 var logfile = "results.log"
 // Loads modules
 var database = new (require('./database.js'))();
-
 /*var activeUser = new (require('./procedures/activateUser.js'))();
 //var addToGroup = new (require('./procedures/addToGroup.js'))();
 //var deleteGroup = new (require('./procedures/deleteGroup.js'))();
@@ -58,55 +59,88 @@ var connection = mysql.createConnection({
 });
 
 //tests all or designated table
-async function testTables(tablesScripts) {
-	for (var i=0;i<tablesScripts.length; i++) {
+async function tableScript(tablesScripts, script) {
+	var tested = 0;
+	for (var i=0;i<tablesScripts.length;i++) {
 		var name = tablesScripts[i].split('/').pop();
-		if (script=="" || script=="tables" || script==name.split('/').pop().substring(0,name.indexOf('.'))){
-		var test = new (require("./tables/"+name))();	
-		await test.start(connection, logfile, batch);}
+		if (script==null || (script!=null && script.toUpperCase()==name.split('/').pop().substring(0,name.indexOf('.')).toUpperCase())){
+			var test = new (require("./tables/"+name))();
+			await test.start(connection, logfile, batch);
+			tested++;
+				 // await utils.timer(1,10000,"Delaying until next test...");
+		}
+		
 	}
+	if (!tested) console.log("\r\nInvalid script name or missing file!");		
+	console.log("\r\n");
 }
 
-async function start() {
-  try {
-    /**
-     * start database tests and their tables
+async function CLI(params){
+	if (params.l && params.t) { 
+		console.log("\r\nAvailable table scripts:\r\n");
+		for (var i=0; i<tablesScripts.length;i++){ 
+			var name = tablesScripts[i].split('/').pop();
+			console.log(name.split('/').pop().substring(0,name.indexOf('.')).toUpperCase());  }
+		console.log("\r\n");
+		}
+	else if (params.l && params.p) console.log("output procedure scripts");
+	else if (params.s && params.t!=null && params.t!=0 && params.t!=1) { 
+		if (parseInt(params._[2])>2) batch = parseInt(params._[2]); 
+		await initDB();
+		await tableScript(tablesScripts, params.t); }
+	else if (params.s && params.p!=null && params.p!=0 && params.p!=1) console.log("test specific procedure"); 
+	else if (params.T || parseInt(params.T)>2) {
+		if (parseInt(params.T)>2) batch = parseInt(params.T);
+		await initDB();		
+		await tableScript(tablesScripts, null); 
+	}
+	else if (params.P) console.log ("test all procedures");	
+	else if (params.A) console.log("test all");
+	else //if (params.h || params.help || process.argv.length<3)	
+	fs.readFile("./help.txt", 'utf8', function(err, data) {
+		if (err) throw err;
+		console.log(data);
+	});	
+}
+
+
+async function initDB(){
+
+     /* start database tests and their tables
      */
-    await console.log("\nGrabbing the database dump and test the integrity of it:");
+    await console.log("\nGrabbing the database dump and test the integrity...");
     await database.start();
     
     /**
      * Connect to the database
      */
+    await console.log("\nConnected.\r\n");
     await connection.connect();
-    
-    /**
-     * Testing the database tables
-     */
-    await console.log('\nTable testing using ' + batch + ' rows:');
-	//dev area	
-	var tablesScripts = [];
-	await utils.getScripts("./lib/tables/",".js",tablesScripts);
-	await testTables(tablesScripts);
+}
+
+async function start() {
+  try {
+  	await utils.getScripts("./lib/tables/",".js",tablesScripts);
+	await CLI(params);
+	
+	//await tableScript(tablesScripts);
+
 	//end of dev area
 	
+	//dev area
     /**
      * Testing the database procedures
      */
-	await console.log("\nTesting the database procedures:");
-
-	//dev area
-	
 	/*var proceduresScripts = [];
 	await utils.getScripts("./lib/procedures/",".js",proceduresScripts);
 	for (var i=0;i<proceduresScripts.length; i++) {
 		var test = new (require("./procedures/"+proceduresScripts[i].split('/').pop()))();	
 		await test.start(connection);
 	*/
-	
-
-    await connection.end();
-  } catch (error) {
+	//end of dev area
+	await connection.end();
+	console.log("\r\nTask finished.\r\n")
+   } catch (error) {
     await connection.end();
     return;
   }
