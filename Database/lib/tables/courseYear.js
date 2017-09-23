@@ -1,11 +1,12 @@
 var utils = new (require('./../utils.js'))();
+var de = Promise.defer();
 
 class CourseYear {
 
   /**
    * Truncate the courseyear table and test insertions
    */
-  async start(connection, logfile, batch) {
+ async start(connection, logfile, batch) {
     this.connection = connection;
 	//batch of operations do test
 	this.batch = batch;
@@ -15,6 +16,7 @@ class CourseYear {
     try {
       await this.truncate();
       await this.insertCourseYears();
+	   return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -48,6 +50,7 @@ class CourseYear {
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
 			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows ingo table `courseyear´ in ' + utils.parseHrTime(endbench);			
 					utils.log('success', msg); utils.writeLog(f,msg); 
+					de.resolve();
 			}		
 		});      
     } catch (error) {

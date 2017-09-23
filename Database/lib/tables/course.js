@@ -1,4 +1,5 @@
 var utils = new (require('./../utils.js'))();
+var de = Promise.defer();
 
 class Course {
 
@@ -15,6 +16,7 @@ class Course {
     try {
       await this.truncate();
       await this.insertCourses();
+	   return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -48,6 +50,7 @@ class Course {
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
 			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `Course´ in ' + utils.parseHrTime(endbench);			
 					utils.log('success', msg); utils.writeLog(f,msg); 
+					de.resolve();
 			}		
 		});        
 	} catch (error) {

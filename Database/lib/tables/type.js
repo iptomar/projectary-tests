@@ -1,4 +1,5 @@
 var utils = new (require('./../utils.js'))();
+var de = Promise.defer();
 
 class Type {
 
@@ -15,7 +16,8 @@ class Type {
     try {
       await this.truncate();
       await this.insertTypes();
-    } catch (error) {
+ 	   return de.promise;
+   } catch (error) {
       throw new Error(error.message);
     }
   }
@@ -48,7 +50,8 @@ class Type {
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
 			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `type` in ' + utils.parseHrTime(endbench);			
 					utils.log('success', msg); utils.writeLog(f,msg); 
-			}		
+					de.resolve();
+			}
 		});
     } catch (error) {
       utils.log('fail', 'Failed to insert `Types´ \n' + error);

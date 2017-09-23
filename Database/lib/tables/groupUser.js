@@ -1,4 +1,5 @@
 var utils = new (require('./../utils.js'))();
+var de = Promise.defer();
 
 class GroupUser {
 
@@ -15,7 +16,8 @@ class GroupUser {
     try {
       await this.truncate();
       await this.insertGroupUsers();
-    } catch (error) {
+ 	   return de.promise;
+   } catch (error) {
       throw new Error(error.message);
     }
   }
@@ -48,6 +50,7 @@ class GroupUser {
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
 			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `groupuser` in ' + utils.parseHrTime(endbench);			
 					utils.log('success', msg); utils.writeLog(f,msg); 
+					de.resolve();
 			}	
 	});    			
     } catch (error) {

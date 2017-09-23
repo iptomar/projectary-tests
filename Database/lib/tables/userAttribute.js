@@ -1,11 +1,12 @@
 var utils = new (require('./../utils.js'))();
+var de = Promise.defer();
 
 class UserAttribute {
 
   /**
    * Truncate the userattribute table and test insertions
    */
-  async start(connection, logfile, batch) {
+  async start(connection, logfile, batch,counter) {
     this.connection = connection;
 	//batch of operations do test
 	this.batch = batch;
@@ -15,6 +16,7 @@ class UserAttribute {
     try {
       await this.truncate();
       await this.insertUserAttributes();
+	   return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -49,6 +51,7 @@ var f = this.logfile;
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
 			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `userattribute` in ' + utils.parseHrTime(endbench);			
 					utils.log('success', msg); utils.writeLog(f,msg); 
+					de.resolve();
 			}		
 		});    
 	} catch (error) {

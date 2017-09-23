@@ -1,4 +1,5 @@
 var utils = new (require('./../utils.js'))();
+var de = Promise.defer();
 
 class Application {
 
@@ -15,6 +16,8 @@ class Application {
     try {
       await this.truncate();
       await this.insertApplications();
+
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -48,13 +51,15 @@ class Application {
 			var endbench = process.hrtime(startbench);
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
 			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `application´ in ' + utils.parseHrTime(endbench);			
-					utils.log('success', msg); utils.writeLog(f,msg); 
-			}		
-		});
+					utils.log('success', msg); utils.writeLog(f,msg);
+					de.resolve();
+			}
+			});
     } catch (error) {
       utils.log('fail', 'Failed to insert in `Applications´ table \n' + error);
       return;
     }
+
   }
 }
 

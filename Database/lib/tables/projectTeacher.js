@@ -1,4 +1,5 @@
 var utils = new (require('./../utils.js'))();
+var de = Promise.defer();
 
 class ProjectTeacher {
 
@@ -15,7 +16,8 @@ class ProjectTeacher {
     try {
       await this.truncate();
       await this.insertProjectTeachers();
-    } catch (error) {
+ 	   return de.promise;
+   } catch (error) {
       throw new Error(error.message);
     }
   }
@@ -37,7 +39,7 @@ class ProjectTeacher {
   async insertProjectTeachers() {
     try {
 		var f = this.logfile;
-		var sql = "INSERT INTO projectteacher VALUES ?";
+	var sql = "INSERT INTO projectteacher VALUES ?";
 		//generating values to insert
 		var values = [];
 		for(var i = 0; i < this.batch; i++)
@@ -48,8 +50,9 @@ class ProjectTeacher {
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
 			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `projectteacher` in ' + utils.parseHrTime(endbench);			
 					utils.log('success', msg); utils.writeLog(f,msg); 
+					de.resolve();
 			}		
-		});    
+			});    
     } catch (error) {
       utils.log('fail', 'Failed to insert `projectteacher` \n' + error);
       return;
