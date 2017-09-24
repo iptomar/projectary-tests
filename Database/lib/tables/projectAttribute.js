@@ -1,10 +1,11 @@
 var utils = new (require('./../utils.js'))();
+//Promise used to keep track of script termination
 var de = Promise.defer();
 
 class ProjectAttribute {
 
-  /**
-   * Truncate the projectattribute table and test insertions
+  /*
+   * Truncates the `projectattribute´ table and tests insertions
    */
   async start(connection, logfile, batch) {
     this.connection = connection;
@@ -16,16 +17,14 @@ class ProjectAttribute {
     try {
       await this.truncate();
       await this.insertProjectAttributes();
-	   return de.promise;
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  /**
-   * Truncate the projectattribute table so we while performing insertions
-   * we can correctly track the number of rows before and 
-   * after the insertions.
+  /*
+   * Truncates the `projectattribute´ table providing a clean testbed
    */
   async truncate() {
     await utils.cmd(`
@@ -34,7 +33,7 @@ class ProjectAttribute {
   }
 
   /**
-   * Insert n projectattributes and check if they're inserted by checking affectedRows
+   * Inserts n `projectattributes´ and check if they're inserted by verifying the number of affected rows
    */
   async insertProjectAttributes() {
     try {
@@ -43,18 +42,24 @@ class ProjectAttribute {
 		//generating values to insert
 		var values = [];
 		for(var i = 0; i < this.batch; i++)
+			//# projectid, attributeid, value
 			values[i]=[i+1,i+1,'attribute'+(i+1)];
+		//keeps time before query
 		var startbench = process.hrtime();
+		//inserts into database
 		await this.connection.query(sql, [values], await function(err, saved) {
+			//gets the elapsed time	
 			var endbench = process.hrtime(startbench);
+			//outputs results
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
 			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `projectattribute` in ' + utils.parseHrTime(endbench);			
-					utils.log('success', msg); utils.writeLog(f,msg); 
-					de.resolve();
+				//saves results into the logfile
+				utils.log('success', msg); utils.writeLog(f,msg); 
+				de.resolve();
 			}		
 		});    
     } catch (error) {
-      utils.log('fail', 'Failed to insert projectattributes \n' + error);
+      utils.log('fail', 'Failed to insert into `projectattributes´ \n' + error);
       return;
     }
   }

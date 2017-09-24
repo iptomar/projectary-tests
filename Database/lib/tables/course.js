@@ -1,4 +1,5 @@
 var utils = new (require('./../utils.js'))();
+//Promise used to keep track of script termination
 var de = Promise.defer();
 
 class Course {
@@ -16,16 +17,14 @@ class Course {
     try {
       await this.truncate();
       await this.insertCourses();
-	   return de.promise;
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  /**
-   * Truncate the course table so we while performing insertions
-   * we can correctly track the number of rows before and 
-   * after the insertions.
+  /*
+   * Truncates the `course´ table providing a clean testbed
    */
   async truncate() {
     await utils.cmd(`
@@ -33,8 +32,8 @@ class Course {
       `, 'Truncated table course', 'Failed to truncate table course');
   }
 
-  /**
-   * Insert n courses and check if they're inserted by checking affected rows.
+  /*
+   * Inserts n courses and check if they're inserted by verifying the number of affected rows
    */
   async insertCourses() {
     try {
@@ -43,18 +42,24 @@ class Course {
 		//generating values to insert
 		var values = [];
 		for(var i = 0; i < this.batch; i++)
+			//# id, name, desc, schoolid
 			values[i]=[i+1, "course" + (i+1),1];
+		//keeps time before query
 		var startbench = process.hrtime();
+		//inserts into database
 		await this.connection.query(sql, [values], await function(err, saved) {
+			//gets the elapsed time	
 			var endbench = process.hrtime(startbench);
+			//outputs results
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
 			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `Course´ in ' + utils.parseHrTime(endbench);			
-					utils.log('success', msg); utils.writeLog(f,msg); 
-					de.resolve();
+				//saves results into the logfile
+				utils.log('success', msg); utils.writeLog(f,msg); 
+				de.resolve();
 			}		
 		});        
 	} catch (error) {
-      utils.log('fail', 'Failed to insert `Courses´ \n' + error);
+      utils.log('fail', 'Failed to insert into `Course´ table\n' + error);
       return;
     }
   }

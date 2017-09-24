@@ -1,10 +1,11 @@
 var utils = new (require('./../utils.js'))();
+//Promise used to keep track of script termination
 var de = Promise.defer();
 
 class Group {
 
   /**
-   * Truncate the user table and test insertions
+   * Truncates the `group´ table and tests insertions
    */
   async start(connection, logfile, batch) {
     this.connection = connection;
@@ -22,10 +23,8 @@ class Group {
     }
   }
 
-  /**
-   * Truncate the group table so we while performing insertions
-   * we can correctly track the number of rows before and 
-   * after the insertions.
+  /*
+   * Truncates the `group´ table providing a clean testbed
    */
   async truncate() {
     await utils.cmd(`
@@ -34,7 +33,7 @@ class Group {
   }
 
   /**
-   * Insert n groups and check if they're inserted by checking affectedRows
+   * Insert n groups and check if they're inserted by verifying the number of affected rows
    */
   async insertGroups() {
     try {
@@ -43,14 +42,20 @@ class Group {
 		//generating values to insert
 		var values = [];
 		for(var i = 0; i < this.batch; i++)
+			//# id, desc, password
 			values[i]=[i+1,'group'+(i+1),'46f94c8de14fb36680850768ff1b7f2a'];
+		//keeps time before query
 		var startbench = process.hrtime();
+		//inserts into database
 		await this.connection.query(sql, [values], await function(err, saved) {
+			//gets the elapsed time	
 			var endbench = process.hrtime(startbench);
+			//outputs results
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
 			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `group` in ' + utils.parseHrTime(endbench);			
-					utils.log('success', msg); utils.writeLog(f,msg); 
-					de.resolve();
+				//saves results into the logfile
+				utils.log('success', msg); utils.writeLog(f,msg); 
+				de.resolve();
 			}		
 		});    
 	} catch (error) {

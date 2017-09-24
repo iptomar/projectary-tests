@@ -1,10 +1,11 @@
 var utils = new (require('./../utils.js'))();
+//Promise used to keep track of script termination
 var de = Promise.defer();
 
 class UserAttribute {
 
   /**
-   * Truncate the userattribute table and test insertions
+   * Truncates the `userattribute´ table and test insertions
    */
   async start(connection, logfile, batch,counter) {
     this.connection = connection;
@@ -16,16 +17,14 @@ class UserAttribute {
     try {
       await this.truncate();
       await this.insertUserAttributes();
-	   return de.promise;
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  /**
-   * Truncate the userattribute table so we while performing insertions
-   * we can correctly track the number of rows before and 
-   * after the insertions.
+  /*
+   * Truncates the `userattribute´ table providing a clean testbed
    */
   async truncate() {
     await utils.cmd(`
@@ -33,25 +32,30 @@ class UserAttribute {
       `, 'Truncated table userattribute', 'Failed to truncate table userattribute');
   }
 
-  /**
-   * Insert 5 userattributes and check if they're inserted by checking affectedRows
+  /*
+   * Inserts n userattributes and checks if they're inserted by verifying the number of affected rows
    */
   async insertUserAttributes() {
     try {
-var f = this.logfile;
+		var f = this.logfile;
 		var sql = "INSERT INTO userattribute VALUES ?";
 		//generating values to insert
 		var values = [];
 		for(var i = 0; i < this.batch; i++)
 			//# userid, attributeid, value
 			values[i]=[i+1,i+1,'value'];
+		//keeps time before query
 		var startbench = process.hrtime();
+		//inserts into database
 		await this.connection.query(sql, [values], await function(err, saved) {
+			//gets the elapsed time	
 			var endbench = process.hrtime(startbench);
+			//outputs results
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
 			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `userattribute` in ' + utils.parseHrTime(endbench);			
-					utils.log('success', msg); utils.writeLog(f,msg); 
-					de.resolve();
+				//saves results into the logfile
+				utils.log('success', msg); utils.writeLog(f,msg); 
+				de.resolve();
 			}		
 		});    
 	} catch (error) {

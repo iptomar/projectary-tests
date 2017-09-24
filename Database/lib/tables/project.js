@@ -1,10 +1,11 @@
 var utils = new (require('./../utils.js'))();
+//Promise used to keep track of script termination
 var de = Promise.defer();
 
 class Project {
 
   /**
-   * Truncate the project table and test insertions
+   * Truncates the `project´ table and tests insertions
    */
   async start(connection, logfile, batch) {
     this.connection = connection;
@@ -16,16 +17,14 @@ class Project {
     try {
       await this.truncate();
       await this.insertProjects();
-	   return de.promise;
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  /**
-   * Truncate the project table so we while performing insertions
-   * we can correctly track the number of rows before and 
-   * after the insertions.
+  /*
+   * Truncates the `project´ table providing a clean testbed
    */
   async truncate() {
     await utils.cmd(`
@@ -34,7 +33,7 @@ class Project {
   }
 
   /**
-   * Insert n projects and check if they're inserted by checking affectedRows
+   * Insert n projects and check if they're inserted by verifying the number of affected rows
    */
   async insertProjects() {
     try {
@@ -43,18 +42,24 @@ class Project {
 		//generating values to insert
 		var values = [];
 		for(var i = 0; i < this.batch; i++)
-			values[i]=[i+1,'2017-01-02 00:00:01',2017,i,'project'+(i+1),'project'+(i+1),i+1,'2017-01-02 00:00:05','2017-01-02 00:00:05',1];
+			//# id, approvedin, year, courseid, name, descriptiom, userid, created, finishedin, finished
+			values[i]=[i+1,'2017-01-02 00:00:01',2017,i,'project'+(i+1),'desc'+(i+1),i+1,'2017-01-02 00:00:05','2017-01-02 00:00:05',1];
+		//keeps time before query
 		var startbench = process.hrtime();
+		//inserts into database
 		await this.connection.query(sql, [values], await function(err, saved) {
+			//gets the elapsed time	
 			var endbench = process.hrtime(startbench);
+			//outputs results
 			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
-			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `project` in ' + utils.parseHrTime(endbench);			
-					utils.log('success', msg); utils.writeLog(f,msg); 
-					de.resolve();
+			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `project´ in ' + utils.parseHrTime(endbench);			
+				//saves results into the logfile
+				utils.log('success', msg); utils.writeLog(f,msg); 
+				de.resolve();
 			}		
 		});    
     } catch (error) {
-      utils.log('fail', 'Failed to insert in projects table \n' + error);
+      utils.log('fail', 'Failed to insert into `projects´ table \n' + error);
       return;
     }
   }
