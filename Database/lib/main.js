@@ -61,6 +61,7 @@ var connection = mysql.createConnection({
 //tests all or designated table
 async function tableScript(tablesScripts, script) {
 	var tested = 0;
+	if(isNaN(script) || script==null)
 	for (var i=0;i<tablesScripts.length;i++) {
 		var name = tablesScripts[i].split('/').pop();
 		if (script==null || (script!=null && script.toUpperCase()==name.split('/').pop().substring(0,name.indexOf('.')).toUpperCase())){
@@ -69,13 +70,15 @@ async function tableScript(tablesScripts, script) {
 			tested++;
 				 // await utils.timer(1,10000,"Delaying until next test...");
 		}
-		
 	}
+	//checks if there was a valid test
 	if (!tested) console.log("\r\nInvalid script name or missing file!");		
 	console.log("\r\n");
 }
 
 async function CLI(params){
+	//console.log(params);
+	//CLI option -lt -tl Lists tables teste scripts
 	if (params.l && params.t) { 
 		console.log("\r\nAvailable table scripts:\r\n");
 		for (var i=0; i<tablesScripts.length;i++){ 
@@ -83,18 +86,23 @@ async function CLI(params){
 			console.log(name.split('/').pop().substring(0,name.indexOf('.')).toUpperCase());  }
 		console.log("\r\n");
 		}
+	//CLI option -lp -pl Lists procedures test scripts
 	else if (params.l && params.p) console.log("output procedure scripts");
-	else if (params.s && params.t!=null && params.t!=0 && params.t!=1) { 
+	//CLI option -t tests specific script. Accpets script name and/or batch size
+	else if (params.t!=null && params.t!=0 && params.t!=1 && !params.l) {
 		if (parseInt(params._[2])>2) batch = parseInt(params._[2]); 
 		await initDB();
 		await tableScript(tablesScripts, params.t); }
-	else if (params.s && params.p!=null && params.p!=0 && params.p!=1) console.log("test specific procedure"); 
-	else if (params.T || parseInt(params.T)>2) {
+	else if (params.p && params.l!=null && params.l!=0 && params.l!=1) console.log("test specific procedure"); 
+	//CLI option -T tests all tables scripts. Accepts batch size
+	else if (params.T || !isNaN(params.T)) {
 		if (parseInt(params.T)>2) batch = parseInt(params.T);
 		await initDB();		
 		await tableScript(tablesScripts, null); 
 	}
-	else if (params.P) console.log ("test all procedures");	
+	//CLI option -P tests all procedures scripts. Accepts batch size
+	else if (params.P) console.log ("test all procedures");
+	//CLI option -A tests all tables and procedures scripts. Accepts batch size
 	else if (params.A) console.log("test all");
 	else //if (params.h || params.help || process.argv.length<3)	
 	fs.readFile("./help.txt", 'utf8', function(err, data) {
@@ -103,17 +111,12 @@ async function CLI(params){
 	});	
 }
 
-
 async function initDB(){
 
-     /* start database tests and their tables
-     */
+    //starts database tests and their tables
     await console.log("\nGrabbing the database dump and test the integrity...");
     await database.start();
-    
-    /**
-     * Connect to the database
-     */
+	//connects to database
     await console.log("\nConnected.\r\n");
     await connection.connect();
 }
@@ -122,11 +125,6 @@ async function start() {
   try {
   	await utils.getScripts("./lib/tables/",".js",tablesScripts);
 	await CLI(params);
-	
-	//await tableScript(tablesScripts);
-
-	//end of dev area
-	
 	//dev area
     /**
      * Testing the database procedures
