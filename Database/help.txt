@@ -2,19 +2,20 @@
 
 Projectary database tester suite.
 
-Usage: npm run bd-test [options] [script] [volume]
+Usage: node main.js [options] [script] [volume]
 
 Options:
 
--h				Outputs this page, also if no options selected.
--lt				Lists available DB tables tests
--lp				Lists available DV procedures tests
--T 				Tests all tables
--P				Tests all procedures
--A				Tests everything
--ts [script]	Tests specific tables script
--ps [script]	Tests specific tables script
+-h			Outputs this page, also if no options selected.
+-lt			Lists available DB tables tests
+-lp			Lists available DB procedures tests
+-T | [volume]		Tests all tables
+-P | [volume]		Tests all procedures
+-A | [volume]		Tests everything
+-t [script] | [volume]	Tests specific tables script
+-p [script] | [volume]	Tests specific tables script
 
-[volume]		Batch size/Number of iterations. Default is 2.
+[script]	Script name (no extension)
+[volume]	Batch size/Number of iterations. Default is 2.
 
 
