@@ -1,25 +1,30 @@
 var utils = new (require('./../utils.js'))();
+//Promise used to keep track of script termination
+var de = Promise.defer();
 
 class UserAttribute {
 
   /**
-   * Truncate the userattribute table and test insertions
+   * Truncates the `userattribute´ table and test insertions
    */
-  async start(connection) {
+  async start(connection, logfile, batch,counter) {
     this.connection = connection;
-
+	//batch of operations do test
+	this.batch = batch;
+	//Log file
+	this.logfile = logfile;
+	
     try {
       await this.truncate();
       await this.insertUserAttributes();
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  /**
-   * Truncate the userattribute table so we while performing insertions
-   * we can correctly track the number of rows before and 
-   * after the insertions.
+  /*
+   * Truncates the `userattribute´ table providing a clean testbed
    */
   async truncate() {
     await utils.cmd(`
@@ -27,36 +32,36 @@ class UserAttribute {
       `, 'Truncated table userattribute', 'Failed to truncate table userattribute');
   }
 
-  /**
-   * Insert 5 userattributes and check if they're inserted by counting
-   * the number of rows before and after the insertion of userattributes.
+  /*
+   * Inserts n userattributes and checks if they're inserted by verifying the number of affected rows
    */
   async insertUserAttributes() {
     try {
-      var rowsCount;
-
-      await this.connection.query('SELECT * FROM projectary_tests.userattribute;', await function (error, results, fields) {
-        rowsCount = results.length;
-      });
-
-      // mysqltest
-      try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/tables/insertUserAttributes.sql`);
-      } catch (error) {
-        throw new Error(error);
-      }
-
-      await this.connection.query('SELECT * FROM projectary_tests.userattribute;', await function (error, results, fields) {
-        if (rowsCount + 5 == results.length) {
-          utils.log('success', 'Inserted 5 userattributes successfully');
-        } else {
-          utils.log('fail', 'The number of rows before and after the insertion do not match');
-        }
-      });
-    } catch (error) {
-      utils.log('fail', 'Failed to insert userattributes \n' + error);
+		var f = this.logfile;
+		var sql = "INSERT INTO userattribute VALUES ?";
+		//generating values to insert
+		var values = [];
+		for(var i = 0; i < this.batch; i++)
+			//# userid, attributeid, value
+			values[i]=[i+1,i+1,'value'];
+		//keeps time before query
+		var startbench = process.hrtime();
+		//inserts into database
+		await this.connection.query(sql, [values], await function(err, saved) {
+			//gets the elapsed time	
+			var endbench = process.hrtime(startbench);
+			//outputs results
+			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
+			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `userattribute` in ' + utils.parseHrTime(endbench);			
+				//saves results into the logfile
+				utils.log('success', msg); utils.writeLog(f,msg); 
+				de.resolve();
+			}		
+		});    
+	} catch (error) {
+      utils.log('fail', 'Failed to insert into `userattribute` table \n' + error);
       return;
-    }
+	  }
   }
 }
 

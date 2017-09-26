@@ -1,25 +1,30 @@
 var utils = new (require('./../utils.js'))();
+//Promise used to keep track of script termination
+var de = Promise.defer();
 
 class Group {
 
   /**
-   * Truncate the user table and test insertions
+   * Truncates the `group´ table and tests insertions
    */
-  async start(connection) {
+  async start(connection, logfile, batch) {
     this.connection = connection;
-
+	//batch of operations do test
+	this.batch = batch;
+	//Log file
+	this.logfile = logfile;
+	
     try {
       await this.truncate();
       await this.insertGroups();
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  /**
-   * Truncate the group table so we while performing insertions
-   * we can correctly track the number of rows before and 
-   * after the insertions.
+  /*
+   * Truncates the `group´ table providing a clean testbed
    */
   async truncate() {
     await utils.cmd(`
@@ -28,35 +33,33 @@ class Group {
   }
 
   /**
-   * Insert 3 groups and check if they're inserted by counting
-   * the number of rows before and after the insertion of groups.
+   * Insert n groups and check if they're inserted by verifying the number of affected rows
    */
   async insertGroups() {
     try {
-      var rowsCount;
-
-      await this.connection.query('SELECT * FROM projectary_tests.group;', await function (error, results, fields) {
-        rowsCount = results.length;
-      });
-
-      // mysqltest
-      try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/tables/insertGroups.sql`);
-      } catch (error) {
-        throw new Error(error);
-      }
-
-      await this.connection.query('SELECT * FROM projectary_tests.group;', await function (error, results, fields) {
-        // check if the rows before and after insertion
-        // are the same, including the number of rows added
-        if (rowsCount + 3 == results.length) {
-          utils.log('success', 'Inserted 3 groups successfully');
-        } else {
-          utils.log('fail', 'The number of rows before and after the insertion do not match');
-        }
-      });
-    } catch (error) {
-      utils.log('fail', 'Failed to insert in groups table \n' + error);
+		var f = this.logfile;
+		var sql = "INSERT INTO `group` VALUES ?";
+		//generating values to insert
+		var values = [];
+		for(var i = 0; i < this.batch; i++)
+			//# id, desc, password
+			values[i]=[i+1,'group'+(i+1),'46f94c8de14fb36680850768ff1b7f2a'];
+		//keeps time before query
+		var startbench = process.hrtime();
+		//inserts into database
+		await this.connection.query(sql, [values], await function(err, saved) {
+			//gets the elapsed time	
+			var endbench = process.hrtime(startbench);
+			//outputs results
+			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
+			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `group` in ' + utils.parseHrTime(endbench);			
+				//saves results into the logfile
+				utils.log('success', msg); utils.writeLog(f,msg); 
+				de.resolve();
+			}		
+		});    
+	} catch (error) {
+      utils.log('fail', 'Failed to insert in `group` table \n' + error);
       return;
     }
   }

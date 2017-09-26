@@ -1,0 +1,23 @@
+
+
+Projectary database tester suite.
+
+Usage: node main.js [options] [script] [volume] [delay]
+
+Options:
+
+-h			Outputs this page, also if no options selected.
+-lt			Lists available DB tables tests
+-lp			Lists available DB procedures tests
+-T [volume] -d [delay]	Tests all tables
+-P [volume] -d [delay]	Tests all procedures
+-A [volume] -d [delay]	Tests everything
+-t [script] [volume]	Tests specific tables script
+-p [script] [volume]	Tests specific procedures script
+
+
+[script]	Script name (no extension).
+[volume]	Optional: Batch size/Number of iterations. Default is 2.
+[delay] 	Optional: Delay between tests in ms (default is batch/5 ms).
+
+

@@ -1,25 +1,30 @@
 var utils = new (require('./../utils.js'))();
+//Promise used to keep track of script termination
+var de = Promise.defer();
 
 class GroupUser {
 
-  /**
-   * Truncate the groupuser table and test insertions
+  /*
+   * Truncate the `groupuser´ table and test insertions
    */
-  async start(connection) {
+  async start(connection, logfile, batch) {
     this.connection = connection;
-
+	//batch of operations do test
+	this.batch = batch;
+	//Log file
+	this.logfile = logfile;
+	
     try {
       await this.truncate();
       await this.insertGroupUsers();
-    } catch (error) {
+	  return de.promise;
+   } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  /**
-   * Truncate the groupuser table so we while performing insertions
-   * we can correctly track the number of rows before and 
-   * after the insertions.
+  /*
+   * Truncates the `groupuser´ table providing a clean testbed
    */
   async truncate() {
     await utils.cmd(`
@@ -28,33 +33,33 @@ class GroupUser {
   }
 
   /**
-   * Insert 5 groupusers and check if they're inserted by counting
-   * the number of rows before and after the insertion of groupusers.
+   * Insert n groupusers and check if they're inserted by checking affectedRows
    */
   async insertGroupUsers() {
     try {
-      var rowsCount;
-
-      await this.connection.query('SELECT * FROM projectary_tests.groupuser;', await function (error, results, fields) {
-        rowsCount = results.length;
-      });
-
-      // mysqltest
-      try {
-        await utils.execPromise(`mysqltest --defaults-file="./.my.cnf" --database projectary_tests < sql/tables/insertGroupUsers.sql`);
-      } catch (error) {
-        throw new Error(error);
-      }
-
-      await this.connection.query('SELECT * FROM projectary_tests.groupuser;', await function (error, results, fields) {
-        if (rowsCount + 5 == results.length) {
-          utils.log('success', 'Inserted 5 groupusers successfully');
-        } else {
-          utils.log('fail', 'The number of rows before and after the insertion do not match');
-        }
-      });
+		var f = this.logfile;
+		var sql = "INSERT INTO groupuser VALUES ?";
+		//generating values to insert
+		var values = [];
+		for(var i = 0; i < this.batch; i++)
+			//# groupid, userid, owner, grade, approvedin
+			values[i]=[i+1,i+1,1,20,'2017-01-04 00:00:01'];
+		//keeps time before query
+		var startbench = process.hrtime();
+		//inserts into database
+		await this.connection.query(sql, [values], await function(err, saved) {
+			//gets the elapsed time	
+			var endbench = process.hrtime(startbench);
+			//outputs results
+			if( err || !saved ) utils.log('fail', 'Data not saved' + err);
+			else { 	var msg = 'Inserted ' + saved.affectedRows + ' rows into table `groupuser` in ' + utils.parseHrTime(endbench);			
+				//saves results into the logfile
+				utils.log('success', msg); utils.writeLog(f,msg); 
+				de.resolve();
+			}	
+		});    			
     } catch (error) {
-      utils.log('fail', 'Failed to insert groupusers \n' + error);
+      utils.log('fail', 'Failed to insert `groupuser` \n' + error);
       return;
     }
   }
