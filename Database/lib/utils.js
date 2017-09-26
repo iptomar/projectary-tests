@@ -87,14 +87,6 @@ class Utils {
 		});
 	}
 
-	//makes multiple delays and is able to write a string on every iteration
-	timer(rep,time, char) {
-		for (let t=1; t<rep; t++) {
-				setTimeout( function timer(){
-				process.stdout.write(char);
-				}, time );
-		}
-	}
 	
   /**
    * Turn the child_process.exec() into a promise to be used on async/await
