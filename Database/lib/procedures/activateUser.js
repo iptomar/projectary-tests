@@ -1,16 +1,23 @@
 var utils = new (require('./../utils.js'))();
+//Promise used to keep track of script termination
+var de = Promise.defer();
 
 class ActivateUser {
 
   /**
    * Truncate the user table and test the activeUser procedure
    */
-  async start(connection) {
-    this.connection = connection;
-
+  async start(connection, logfile, batch) {
+     this.connection = connection;
+	//batch of operations do test
+	this.batch = batch;
+	//Log file
+	this.logfile = logfile;
+	
     try {
       await this.truncate();
       await this.testActivateUser();
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }
