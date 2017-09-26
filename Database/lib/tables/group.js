@@ -17,7 +17,7 @@ class Group {
     try {
       await this.truncate();
       await this.insertGroups();
-	   return de.promise;
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }

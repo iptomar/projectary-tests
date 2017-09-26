@@ -17,7 +17,7 @@ class CourseYear {
     try {
       await this.truncate();
       await this.insertCourseYears();
-	   return de.promise;
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }

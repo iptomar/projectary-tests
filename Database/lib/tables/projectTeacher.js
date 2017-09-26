@@ -17,7 +17,7 @@ class ProjectTeacher {
     try {
       await this.truncate();
       await this.insertProjectTeachers();
- 	  return de.promise;
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }

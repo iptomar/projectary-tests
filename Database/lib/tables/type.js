@@ -17,7 +17,7 @@ class Type {
     try {
       await this.truncate();
       await this.insertTypes();
- 	  return de.promise;
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }

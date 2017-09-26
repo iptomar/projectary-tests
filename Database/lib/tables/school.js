@@ -17,7 +17,7 @@ class School {
     try {
       await this.truncate();
       await this.insertSchools();
- 	  return de.promise;
+	  return de.promise;
     } catch (error) {
       throw new Error(error.message);
     }
