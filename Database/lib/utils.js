@@ -66,6 +66,11 @@ class Utils {
 	}
 
 	
+	getRandom(min, max) {
+		return Math.random() * (max - min) + min;
+	}
+
+
 	//appends new line 'data' to 'logfile'. Creates if does not exist
 	writeLog(logfile, data) {
 		var fs = require('fs');
