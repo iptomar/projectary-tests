@@ -16,41 +16,40 @@ var scripts="";
 var tablesScripts = [];
 //procedures scripts array
 var procsScripts = [];
-//log file
-var logfile = "results.log"
+//log files
+var tLogFile = "tResults.log"
+var pLogFile = "pResults.log"
 // Loads modules
 var database = new (require('./database.js'))();
 /*
-var activeUser = new (require('./procedures/activateUser.js'))();
-//var addToGroup = new (require('./procedures/addToGroup.js'))();
-//var deleteGroup = new (require('./procedures/deleteGroup.js'))();
-//var deleteUserAttribute = new (require('./procedures/deleteUserAttribute.js'))();
-var descExists = new (require('./procedures/descExists.js'))();
-//var editGroup = new (require('./procedures/editGroup.js'))();
-var emailExists = new (require('./procedures/emailExists.js'))();
-var externalExists = new (require('./procedures/externalExists.js'))();
-var finishProject = new (require('./procedures/finishProject.js'))();
-//var insertGrade = new (require('./procedures/insertGrade.js'))();
-//var insertNewApplication = new (require('./procedures/insertNewApplication.js'))();
-var insertNewCourse = new (require('./procedures/insertNewCourse.js'))();
-var insertNewCourseYear = new (require('./procedures/insertNewCourseYear.js'))();
-//var insertNewGroup = new (require('./procedures/insertNewGroup.js'))();
-var insertNewProject = new (require('./procedures/insertNewProject.js'))();
-var insertNewType = new (require('./procedures/insertNewType.js'))();
-var insertNewUser = new (require('./procedures/insertNewUser.js'))();
-var insertUserAttribute = new (require('./procedures/insertUserAttribute.js'))();
-var isAdmin = new (require('./procedures/isAdmin.js'))();
-var isInGroup = new (require('./procedures/isInGroup.js'))();
-var isInProject = new (require('./procedures/isInProject.js'))();
-var isStudent = new (require('./procedures/isStudent.js'))();
-var isTeacher = new (require('./procedures/isTeacher.js'))();
-//var listApplications = new (require('./procedures/listApplications.js'))();
-var listCourses = new (require('./procedures/listCourses.js'))();
-var listGroupDetails = new (require('./procedures/listGroupDetails.js'))();
-var listGroups = new (require('./procedures/listGroups.js'))();
-var listProjects = new (require('./procedures/listProjects.js'))();
-var listSchools = new (require('./procedures/listSchools.js'))();
-var updateUserAttribute = new (require('./procedures/updateUserAttribute.js'))();
+k var activeUser = new (require('./procedures/activateUser.js'))();
+k //var addToGroup = new (require('./procedures/addToGroup.js'))();
+k //var deleteGroup = new (require('./procedures/deleteGroup.js'))();
+k //var deleteUserAttribute = new (require('./procedures/deleteUserAttribute.js'))();
+k var descExists = new (require('./procedures/descExists.js'))();
+k //var editGroup = new (require('./procedures/editGroup.js'))();
+k var emailExists = new (require('./procedures/emailExists.js'))();
+k var externalExists = new (require('./procedures/externalExists.js'))();
+k var finishProject = new (require('./procedures/finishProject.js'))();
+k //var insertGrade = new (require('./procedures/insertGrade.js'))();
+k //var insertNewApplication = new (require('./procedures/insertNewApplication.js'))();
+k var insertNewCourse = new (require('./procedures/insertNewCourse.js'))();
+k var insertNewCourseYear = new (require('./procedures/insertNewCourseYear.js'))();
+k //var insertNewGroup = new (require('./procedures/insertNewGroup.js'))();
+k var insertNewProject = new (require('./procedures/insertNewProject.js'))();
+k var insertNewType = new (require('./procedures/insertNewType.js'))();
+k var insertNewUser = new (require('./procedures/insertNewUser.js'))();
+k var insertUserAttribute = new (require('./procedures/insertUserAttribute.js'))();
+k var isInProject = new (require('./procedures/isInProject.js'))();
+k var isStudent = new (require('./procedures/isStudent.js'))();
+k var isTeacher = new (require('./procedures/isTeacher.js'))();
+k //var listApplications = new (require('./procedures/listApplications.js'))();
+k var listCourses = new (require('./procedures/listCourses.js'))();
+k var listGroupDetails = new (require('./procedures/listGroupDetails.js'))();
+k var listGroups = new (require('./procedures/listGroups.js'))();
+k var listProjects = new (require('./procedures/listProjects.js'))();
+k var listSchools = new (require('./procedures/listSchools.js'))();
+k var updateUserAttribute = new (require('./procedures/updateUserAttribute.js'))();
 */
 
 
@@ -66,15 +65,17 @@ var connection = mysql.createConnection({
 });
 
 //tests all or designated script
-async function scriptTest(scriptArray, script) {
+async function scriptTest(scriptArray, path, script) {
 	var tested = 0;
 	if(isNaN(script) || script==null)
 	for (var i=0;i<scriptArray.length;i++) {
 		var name = scriptArray[i].split('/').pop();
 		if (script==null || (script!=null && script.toUpperCase()==name.split('/').pop().substring(0,name.indexOf('.')).toUpperCase())){
-			var test = new (require("./tables/"+name))();
+			var test = new (require(path+name))();
+			if (path.includes("tab")? logfile=tLogFile:logfile=pLogFile);
 			await test.start(connection, logfile, batch).then(	
 			function() { 
+				if(script==null){
 				utils.log('warning', "Waiting...\r\n");
 				//Forces delay between tests to assure low mysql server load after previous test
 				return new Promise(async function(resolve, reject) {
@@ -83,7 +84,7 @@ async function scriptTest(scriptArray, script) {
 				  resolve();
 				}, delay);
 			  });			
-			} );
+			}} );
 			await tested++;
 		}
 	}
@@ -115,12 +116,12 @@ async function CLI(params){
 	else if (params.t!=null && params.t!=0 && params.t!=1 && !params.l) {
 		if (parseInt(params._[2])>2) batch = parseInt(params._[2]); 
 		await initDB();
-		await scritTest(tablesScripts, params.t); }
+		await scriptTest(tablesScripts, "./tables/", params.t); }
 	//CLI option -p tests specific procedure script. Accepts script name and/or batch size
-	else if (params.p && params.l!=null && params.l!=0 && params.l!=1)  {
+	else if (params.p!=null && params.p!=0 && params.p!=1 && !params.l) {
 		if (parseInt(params._[2])>2) batch = parseInt(params._[2]); 
 		await initDB();
-		await procScript(procsScripts, params.t); }
+		await scriptTest(procsScripts, "./procedures/", params.p); }
 	//CLI option -T tests all tables scripts. Accepts batch size and delay -d
 	else if (params.T || !isNaN(params.T)) {
 		if (parseInt(params.T)>2) batch = parseInt(params.T);
@@ -128,10 +129,17 @@ async function CLI(params){
 		//if not set by user sets delay for a safe value
 		if (params.d>0? delay=params.d : delay=batch/ratio);
 		console.log("\r\nUsing a " + delay + " ms delay between tests.\r\n");
-		await scriptTest(tablesScripts, null); 
+		await scriptTest(tablesScripts, "./tables/", null); 
 	}
 	//CLI option -P tests all procedures scripts. Accepts batch size
-	else if (params.P) console.log ("test all procedures");
+	else if (params.P || !isNaN(params.P)) {
+		if (parseInt(params.P)>2) batch = parseInt(params.P);
+		await initDB();		
+		//if not set by user sets delay for a safe value
+		if (params.d>0? delay=params.d : delay=batch/ratio);
+		console.log("\r\nUsing a " + delay + " ms delay between tests.\r\n");
+		await scriptTest(procsScripts, "./procedures/", null); 
+	}
 	//CLI option -A tests all tables and procedures scripts. Accepts batch size
 	else if (params.A) console.log("test all");
 	else //if (params.h || params.help || process.argv.length<3)	
