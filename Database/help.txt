@@ -13,7 +13,7 @@ Options:
 -P [volume] -d [delay]	Tests all procedures
 -A [volume] -d [delay]	Tests everything
 -t [script] [volume]	Tests specific tables script
--p [script] [volume]	Tests specific tables script
+-p [script] [volume]	Tests specific procedures script
 
 
 [script]	Script name (no extension).
